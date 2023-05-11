@@ -1,5 +1,7 @@
 import { MantineProvider } from '@mantine/core'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import theme from './theme'
+import { LoginView } from './views'
 
 const App = () => (
 	<MantineProvider
@@ -7,7 +9,15 @@ const App = () => (
 		withGlobalStyles
 		withNormalizeCSS
 	>
-		<div>Initialize app</div>
+		<BrowserRouter>
+			<Routes>
+				<Route
+					index
+					path='/'
+					Component={LoginView}
+				/>
+			</Routes>
+		</BrowserRouter>
 	</MantineProvider>
 )
 
