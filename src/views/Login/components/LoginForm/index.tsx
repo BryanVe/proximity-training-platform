@@ -12,6 +12,7 @@ import { Form } from './styled.components'
 import { useForm } from '@mantine/form'
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { notifications } from '@mantine/notifications'
+import { useNavigate } from 'react-router-dom'
 
 const loginButtonColors = {
 	bg: '#f16066',
@@ -48,6 +49,7 @@ const getInputErrorMessage = (message: string) => (
 
 const LoginForm = () => {
 	const { classes } = useStyles()
+	const navigate = useNavigate()
 	const form = useForm({
 		initialValues: {
 			email: '',
@@ -75,7 +77,7 @@ const LoginForm = () => {
 		try {
 			// TODO: implement fetching login to backend
 			if (values.email === 'test@test.com' && values.password === 'test') {
-				return notifications.show({
+				notifications.show({
 					title: 'Inició sesión correctamente',
 					message: 'Bienvenido <nombre_de_empresa>',
 					icon: <FontAwesomeIcon icon={faCheck} />,
@@ -95,6 +97,8 @@ const LoginForm = () => {
 						},
 					}),
 				})
+
+				return navigate('/dashboard')
 			}
 
 			notifications.show({
