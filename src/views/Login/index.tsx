@@ -1,5 +1,6 @@
 import { Box, Image, Text, Title } from '@mantine/core'
-import { Wrapper, LoginContainer, LoginForm } from './components'
+import { LoginForm } from './components'
+import { Wrapper, LoginContainer } from './styled.components'
 import proximityLogo from '@/assets/images/proximity_logo.png'
 
 const LoginView = () => (
