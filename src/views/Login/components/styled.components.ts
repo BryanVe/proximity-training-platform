@@ -25,9 +25,3 @@ const _LoginContainer = styled(Paper)`
 export const LoginContainer = createPolymorphicComponent<'div', PaperProps>(
 	_LoginContainer
 )
-
-export const LoginForm = styled.form`
-	display: flex;
-	flex-direction: column;
-	gap: ${({ theme }) => theme.spacing.md};
-`
