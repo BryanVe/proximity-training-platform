@@ -4,6 +4,7 @@ import {
 	Image,
 	Notification,
 	PasswordInput,
+	rem,
 	Text,
 	TextInput,
 	Title,
@@ -14,7 +15,8 @@ import proximityLogo from '@/assets/images/proximity_logo.png'
 import { CustomButton } from '@/components'
 import { Wrapper, LoginContainer, LoginForm } from './components'
 import { useForm } from '@mantine/form'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { notifications } from '@mantine/notifications'
 
 const useStyles = createStyles(() => ({
 	input: {
@@ -38,11 +40,11 @@ const getErrorMessage = (message: string) => (
 				boxShadow: 'none',
 			},
 			icon: {
-				backgroundColor: theme.colors.red[6],
+				backgroundColor: theme.colors.red[7],
 				width: theme.spacing.lg,
 				height: theme.spacing.lg,
 			},
-			description: { color: theme.colors.red[6] },
+			description: { color: theme.colors.red[7] },
 		})}
 	>
 		{message}
@@ -73,6 +75,57 @@ const LoginView = () => {
 		},
 	})
 
+	const login = (values: typeof form.values) => {
+		try {
+			// TODO: implement fetching login to backend
+			if (values.email === 'test@test.com' && values.password === 'test') {
+				return notifications.show({
+					title: 'Inició sesión correctamente',
+					message: 'Bienvenido <nombre_de_empresa>',
+					icon: <FontAwesomeIcon icon={faCheck} />,
+					styles: theme => ({
+						root: {
+							backgroundColor: theme.colors.green[0],
+							border: `${rem(1)} solid ${theme.colors.green[7]}`,
+							boxShadow: 'none',
+						},
+						icon: {
+							backgroundColor: theme.colors.green[7],
+						},
+						title: {
+							fontWeight: 600,
+							color: theme.colors.green[7],
+							fontSize: theme.fontSizes.md,
+						},
+					}),
+				})
+			}
+
+			notifications.show({
+				title: 'Error al iniciar sesión',
+				message: 'Ocurrió el siguiente error: ....',
+				icon: <FontAwesomeIcon icon={faXmark} />,
+				styles: theme => ({
+					root: {
+						backgroundColor: theme.colors.red[0],
+						border: `${rem(1)} solid ${theme.colors.red[7]}`,
+						boxShadow: 'none',
+					},
+					icon: {
+						backgroundColor: theme.colors.red[7],
+					},
+					title: {
+						fontWeight: 600,
+						color: theme.colors.red[7],
+						fontSize: theme.fontSizes.md,
+					},
+				}),
+			})
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	return (
 		<Wrapper>
 			<LoginContainer
@@ -98,7 +151,7 @@ const LoginView = () => {
 				<Text ta='center'>
 					Accede al <b>Portal de Entrenamiento</b>
 				</Text>
-				<LoginForm onSubmit={form.onSubmit(values => console.log(values))}>
+				<LoginForm onSubmit={form.onSubmit(login)}>
 					<TextInput
 						w='100%'
 						size='md'
@@ -125,7 +178,8 @@ const LoginView = () => {
 					/>
 					<CustomButton
 						type='submit'
-						c='white'
+						size='md'
+						radius='md'
 						bg={loginButtonColors.bg}
 						hbg={loginButtonColors.hbg}
 						abg={loginButtonColors.abg}

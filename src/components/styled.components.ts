@@ -1,21 +1,12 @@
 import styled from '@emotion/styled'
-import {
-	createPolymorphicComponent,
-	rem,
-	UnstyledButton,
-	UnstyledButtonProps,
-} from '@mantine/core'
+import { Button, createPolymorphicComponent, ButtonProps } from '@mantine/core'
 
-type CustomButtonProps = UnstyledButtonProps & {
-	hbg?: UnstyledButtonProps['bg']
-	abg?: UnstyledButtonProps['bg']
+type CustomButtonProps = ButtonProps & {
+	hbg?: ButtonProps['bg']
+	abg?: ButtonProps['bg']
 }
 
-const _CustomButton = styled(UnstyledButton)<CustomButtonProps>`
-	padding: ${rem(16)} ${rem(32)};
-	text-align: center;
-	font-weight: 600;
-	border-radius: ${({ theme }) => theme.radius.md};
+const _CustomButton = styled(Button)<CustomButtonProps>`
 	background-color: ${props => props.bg || props.theme.colors.gray[5]};
 
 	&:hover {
@@ -24,7 +15,6 @@ const _CustomButton = styled(UnstyledButton)<CustomButtonProps>`
 
 	&:active {
 		background-color: ${props => props.abg || props.theme.colors.gray[6]};
-		transform: translateY(${rem(1)});
 	}
 `
 
