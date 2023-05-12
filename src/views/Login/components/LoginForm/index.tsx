@@ -155,7 +155,7 @@ const LoginForm = () => {
 			<CustomButton
 				type='submit'
 				size='md'
-				radius='md'
+				radius='sm'
 				bg={loginButtonColors.bg}
 				hbg={loginButtonColors.hbg}
 				abg={loginButtonColors.abg}

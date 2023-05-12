@@ -5,11 +5,12 @@ export const Wrapper = styled.div`
 	display: grid;
 	position: absolute;
 	inset: 0;
-	background: linear-gradient(
-		135deg,
-		rgba(235, 28, 133, 1) 0%,
-		rgba(248, 158, 74, 1) 100%
-	);
+	background: ${({ theme }) =>
+		theme.fn.gradient({
+			from: 'rgb(235, 28, 133)',
+			to: 'rgb(248, 158, 74)',
+			deg: 135,
+		})};
 `
 
 const _LoginContainer = styled(Paper)`
