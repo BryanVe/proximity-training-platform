@@ -1,22 +1,56 @@
 import {
 	Box,
+	createStyles,
 	Image,
 	Notification,
 	PasswordInput,
-	rem,
 	Text,
 	TextInput,
 	Title,
 } from '@mantine/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
-// import { faEnvelope, faLock, faXmark } from '@fortawesome/free-solid-svg-icons'
-import proximityWhiteLogo from '@/assets/images/proximity_white_logo.png'
+import proximityLogo from '@/assets/images/proximity_logo.png'
 import { CustomButton } from '@/components'
-import { LoginForm } from './components'
+import { Wrapper, LoginContainer, LoginForm } from './components'
 import { useForm } from '@mantine/form'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+
+const useStyles = createStyles(() => ({
+	input: {
+		backgroundColor: '#f5f5f5',
+	},
+}))
+
+const loginButtonColors = {
+	bg: '#f16066',
+	hbg: '#f06c71',
+	abg: '#f0545a',
+}
+
+const getErrorMessage = (message: string) => (
+	<Notification
+		withCloseButton={false}
+		icon={<FontAwesomeIcon icon={faXmark} />}
+		styles={theme => ({
+			root: {
+				backgroundColor: theme.colors.red[1],
+				boxShadow: 'none',
+			},
+			icon: {
+				backgroundColor: theme.colors.red[6],
+				width: theme.spacing.lg,
+				height: theme.spacing.lg,
+			},
+			description: { color: theme.colors.red[6] },
+		})}
+	>
+		{message}
+	</Notification>
+)
 
 const LoginView = () => {
+	const { classes } = useStyles()
 	const form = useForm({
 		initialValues: {
 			email: '',
@@ -24,89 +58,83 @@ const LoginView = () => {
 		},
 
 		validate: {
-			email: value =>
-				/^\S+@\S+$/.test(value) ? null : (
-					<Text color='red.9'>Email inválido</Text>
-				),
-			password: value =>
-				value.length !== 0 ? null : (
-					<Notification
-						withCloseButton={false}
-						styles={theme => ({
-							root: {
-								backgroundColor: theme.colors.gray[5],
-								padding: rem(1),
-								paddingLeft: theme.spacing.lg,
+			email: value => {
+				if (!value) return getErrorMessage('Este campo no puede estar vacío')
 
-								'&::before': { backgroundColor: theme.colors.red[6] },
-							},
-							icon: {
-								backgroundColor: 'transparent',
-							},
-							description: { color: theme.colors.red[6] },
-						})}
-					>
-						Email inválido
-					</Notification>
-				),
+				if (!/^\S+@\S+\.\S+$/.test(value))
+					return getErrorMessage('Ingrese un email válido')
+
+				return null
+			},
+			password: value =>
+				value.length !== 0
+					? null
+					: getErrorMessage('Este campo no puede estar vacío'),
 		},
 	})
 
 	return (
-		<LoginForm onSubmit={form.onSubmit(values => console.log(values))}>
-			<Box p='md'>
-				<Image
-					maw={110}
-					mx='auto'
-					alt='Proximity Logo'
-					src={proximityWhiteLogo}
-					mt={rem(45)}
-					mb='sm'
-				/>
-				<Title
-					order={1}
-					size='h2'
-					ta='center'
-				>
-					PROXIMITY
-				</Title>
-				<Title
-					order={2}
-					size='h4'
-					mb='xl'
-					weight={500}
-					ta='center'
-				>
-					Training Platform
-				</Title>
-				<Text
-					mt={rem(45)}
-					mb='xl'
-					ta='center'
-				>
+		<Wrapper>
+			<LoginContainer
+				shadow='xs'
+				p='md'
+			>
+				<Box>
+					<Image
+						maw={200}
+						mx='auto'
+						alt='Proximity Logo'
+						src={proximityLogo}
+					/>
+					<Title
+						order={2}
+						size='h4'
+						weight={500}
+						ta='center'
+					>
+						Training Platform
+					</Title>
+				</Box>
+				<Text ta='center'>
 					Accede al <b>Portal de Entrenamiento</b>
 				</Text>
-				<TextInput
-					w='100%'
-					mb='md'
-					placeholder='Email'
-					{...form.getInputProps('email')}
-				/>
-				<PasswordInput
-					w='100%'
-					placeholder='Contraseña'
-					visibilityToggleIcon={({ reveal }) =>
-						reveal ? (
-							<FontAwesomeIcon icon={faEyeSlash} />
-						) : (
-							<FontAwesomeIcon icon={faEye} />
-						)
-					}
-					{...form.getInputProps('password')}
-				/>
-			</Box>
-			<CustomButton type='submit'>Iniciar sesión</CustomButton>
-		</LoginForm>
+				<LoginForm onSubmit={form.onSubmit(values => console.log(values))}>
+					<TextInput
+						w='100%'
+						size='md'
+						type='email'
+						variant='filled'
+						placeholder='Email'
+						classNames={classes}
+						{...form.getInputProps('email')}
+					/>
+					<PasswordInput
+						w='100%'
+						size='md'
+						variant='filled'
+						placeholder='Contraseña'
+						classNames={classes}
+						visibilityToggleIcon={({ reveal }) =>
+							reveal ? (
+								<FontAwesomeIcon icon={faEyeSlash} />
+							) : (
+								<FontAwesomeIcon icon={faEye} />
+							)
+						}
+						{...form.getInputProps('password')}
+					/>
+					<CustomButton
+						type='submit'
+						c='white'
+						bg={loginButtonColors.bg}
+						hbg={loginButtonColors.hbg}
+						abg={loginButtonColors.abg}
+					>
+						Iniciar sesión
+					</CustomButton>
+				</LoginForm>
+			</LoginContainer>
+		</Wrapper>
 	)
 }
 
