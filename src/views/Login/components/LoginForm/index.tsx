@@ -1,10 +1,4 @@
-import {
-	createStyles,
-	Notification,
-	PasswordInput,
-	rem,
-	TextInput,
-} from '@mantine/core'
+import { Notification, PasswordInput, rem, TextInput } from '@mantine/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 import { CustomButton } from '@/styled.components'
@@ -15,16 +9,17 @@ import { notifications } from '@mantine/notifications'
 import { useNavigate } from 'react-router-dom'
 
 const loginButtonColors = {
-	bg: '#f16066',
-	hbg: '#f06c71',
-	abg: '#f0545a',
+	bg: '#F16066',
+	hbg: '#F06C71',
+	abg: '#F0545A',
 }
 
-const useStyles = createStyles(() => ({
+const inputBgColor = '#F5F5F5'
+const inputStyles = {
 	input: {
-		backgroundColor: '#f5f5f5',
+		backgroundColor: inputBgColor,
 	},
-}))
+}
 
 const getInputErrorMessage = (message: string) => (
 	<Notification
@@ -48,7 +43,6 @@ const getInputErrorMessage = (message: string) => (
 )
 
 const LoginForm = () => {
-	const { classes } = useStyles()
 	const navigate = useNavigate()
 	const form = useForm({
 		initialValues: {
@@ -98,7 +92,9 @@ const LoginForm = () => {
 					}),
 				})
 
-				return navigate('/dashboard')
+				return navigate('/dashboard', {
+					replace: true,
+				})
 			}
 
 			notifications.show({
@@ -134,7 +130,7 @@ const LoginForm = () => {
 				type='email'
 				variant='filled'
 				placeholder='Email'
-				classNames={classes}
+				styles={inputStyles}
 				{...form.getInputProps('email')}
 			/>
 			<PasswordInput
@@ -142,7 +138,7 @@ const LoginForm = () => {
 				size='md'
 				variant='filled'
 				placeholder='Contraseña'
-				classNames={classes}
+				styles={inputStyles}
 				visibilityToggleIcon={({ reveal }) =>
 					reveal ? (
 						<FontAwesomeIcon icon={faEyeSlash} />

@@ -1,5 +1,5 @@
 import { MantineProvider } from '@mantine/core'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Notifications } from '@mantine/notifications'
 import { DashboardView, LoginView, TrainingView } from './views'
 import { InternalLayout } from './layouts'
@@ -11,12 +11,23 @@ const App = () => (
 		withGlobalStyles
 		withNormalizeCSS
 	>
-		<Notifications position='top-right' />
+		<Notifications
+			position='bottom-center'
+			zIndex={1000}
+		/>
 		<BrowserRouter>
 			<Routes>
 				<Route
 					index
-					path='/'
+					element={
+						<Navigate
+							to='/login'
+							replace={true}
+						/>
+					}
+				/>
+				<Route
+					path='/login'
 					element={<LoginView />}
 				/>
 				<Route element={<InternalLayout />}>

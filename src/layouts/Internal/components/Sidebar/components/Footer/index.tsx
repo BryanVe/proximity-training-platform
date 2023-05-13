@@ -1,46 +1,32 @@
-import { useLocation } from 'react-router-dom'
-import { createStyles, Navbar } from '@mantine/core'
-import Links from '../Links'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { Navbar } from '@mantine/core'
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
-
-const menu = [
-	{
-		label: 'Cerrar sesión',
-		icon: faRightFromBracket,
-		onClick: () => {
-			console.log('cerrar')
-		},
-	},
-]
-
-const useStyles = createStyles(theme => ({
-	navbar: {
-		backgroundColor: theme.white,
-		paddingBottom: 0,
-	},
-
-	links: {},
-
-	linksInner: {
-		padding: `${theme.spacing.md} 0`,
-	},
-}))
+import Links from '../Links'
 
 const Content = () => {
-	const { classes } = useStyles()
 	const location = useLocation()
+	const navigate = useNavigate()
+
+	const menu = [
+		{
+			label: 'Cerrar sesión',
+			icon: faRightFromBracket,
+			onClick: () =>
+				navigate('/', {
+					replace: true,
+				}),
+		},
+	]
 
 	return (
-		<Navbar.Section className={classes.links}>
-			<div className={classes.linksInner}>
-				{menu.map(item => (
-					<Links
-						{...item}
-						key={item.label}
-						currentTo={location.pathname}
-					/>
-				))}
-			</div>
+		<Navbar.Section py='sm'>
+			{menu.map(item => (
+				<Links
+					{...item}
+					key={item.label}
+					currentTo={location.pathname}
+				/>
+			))}
 		</Navbar.Section>
 	)
 }

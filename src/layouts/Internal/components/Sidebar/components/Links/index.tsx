@@ -5,10 +5,10 @@ import { FC } from 'react'
 import { Link } from 'react-router-dom'
 
 const useStyles = createStyles(theme => ({
-	control: {
+	button: {
 		display: 'block',
 		width: '100%',
-		fontWeight: 600,
+		fontWeight: 500,
 		color: theme.colors.gray[5],
 		fontSize: theme.fontSizes.sm,
 		borderRadius: theme.radius.sm,
@@ -21,38 +21,19 @@ const useStyles = createStyles(theme => ({
 		'&:active': {
 			color: theme.white,
 			fontWeight: 600,
-			background: theme.fn.gradient({
-				from: 'rgb(235, 28, 133)',
-				to: 'rgb(248, 158, 74)',
-				deg: 135,
-			}),
+			background: theme.fn.gradient(theme.defaultGradient),
 		},
 	},
 
 	link: {
-		display: 'block',
 		textDecoration: 'none',
-		width: '100%',
-		fontWeight: 600,
-		color: theme.colors.gray[5],
-		fontSize: theme.fontSizes.sm,
-		borderRadius: theme.radius.sm,
-		padding: theme.spacing.sm,
 		lineHeight: rem(1.55),
-
-		'&:hover': {
-			backgroundColor: theme.colors.orange[0],
-		},
 	},
 
 	active: {
 		color: theme.white,
 		fontWeight: 600,
-		background: theme.fn.gradient({
-			from: 'rgb(235, 28, 133)',
-			to: 'rgb(248, 158, 74)',
-			deg: 135,
-		}),
+		background: theme.fn.gradient(theme.defaultGradient),
 	},
 }))
 
@@ -68,41 +49,35 @@ const Links: FC<LinksProps> = props => {
 	const { icon, label, to, currentTo, onClick } = props
 	const { classes, cx } = useStyles()
 
-	return (
-		<>
-			{to ? (
-				<UnstyledButton
-					component={Link}
-					to={to}
-					className={cx(classes.link, {
-						[classes.active]: to === currentTo,
-					})}
-				>
-					<Flex align='center'>
-						<FontAwesomeIcon
-							icon={icon}
-							size='lg'
-						/>
-						<Box ml='md'>{label}</Box>
-					</Flex>
-				</UnstyledButton>
-			) : (
-				<UnstyledButton
-					onClick={onClick}
-					className={cx(classes.control, {
-						[classes.active]: to === currentTo,
-					})}
-				>
-					<Flex align='center'>
-						<FontAwesomeIcon
-							icon={icon}
-							size='lg'
-						/>
-						<Box ml='md'>{label}</Box>
-					</Flex>
-				</UnstyledButton>
-			)}
-		</>
+	const content = (
+		<Flex align='center'>
+			<FontAwesomeIcon
+				icon={icon}
+				size='lg'
+			/>
+			<Box ml='md'>{label}</Box>
+		</Flex>
+	)
+
+	return to ? (
+		<UnstyledButton
+			to={to}
+			component={Link}
+			className={cx(classes.button, classes.link, {
+				[classes.active]: to === currentTo,
+			})}
+		>
+			{content}
+		</UnstyledButton>
+	) : (
+		<UnstyledButton
+			onClick={onClick}
+			className={cx(classes.button, {
+				[classes.active]: to === currentTo,
+			})}
+		>
+			{content}
+		</UnstyledButton>
 	)
 }
 

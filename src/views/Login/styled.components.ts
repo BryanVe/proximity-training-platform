@@ -5,12 +5,7 @@ export const Wrapper = styled.div`
 	display: grid;
 	position: absolute;
 	inset: 0;
-	background: ${({ theme }) =>
-		theme.fn.gradient({
-			from: 'rgb(235, 28, 133)',
-			to: 'rgb(248, 158, 74)',
-			deg: 135,
-		})};
+	background: ${({ theme }) => theme.fn.gradient(theme.defaultGradient)};
 `
 
 const _LoginContainer = styled(Paper)`

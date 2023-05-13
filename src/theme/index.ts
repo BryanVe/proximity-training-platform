@@ -2,6 +2,11 @@ import { MantineThemeOverride } from '@mantine/core'
 
 const theme: MantineThemeOverride = {
 	fontFamily: 'Titillium Web',
+	defaultGradient: {
+		from: 'rgb(235, 28, 133)',
+		to: 'rgb(248, 158, 74)',
+		deg: 135,
+	},
 	colors: {
 		gray: [
 			'#C7C7C7',
@@ -28,22 +33,16 @@ const theme: MantineThemeOverride = {
 			'#660847',
 		],
 	},
-	primaryColor: 'gray',
+	primaryColor: 'orange',
 	components: {
 		Navbar: {
 			styles: theme => ({
 				root: {
-					width: 280,
 					padding: `0 ${theme.spacing.md}`,
 					borderRight: 'none',
 					boxShadow: '1px 0px 16px -8px rgba(68,68,68,0.59)',
 				},
 			}),
-		},
-		Drawer: {
-			defaultProps: {
-				size: 280,
-			},
 		},
 	},
 }

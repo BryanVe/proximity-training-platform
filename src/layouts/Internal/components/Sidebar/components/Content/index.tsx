@@ -1,10 +1,10 @@
 import { useLocation } from 'react-router-dom'
-import { createStyles, Navbar } from '@mantine/core'
-import Links from '../Links'
+import { Navbar } from '@mantine/core'
 import {
 	faBoxesStacked,
 	faChartSimple,
 } from '@fortawesome/free-solid-svg-icons'
+import Links from '../Links'
 
 const menu = [
 	{
@@ -19,34 +19,18 @@ const menu = [
 	},
 ]
 
-const useStyles = createStyles(theme => ({
-	navbar: {
-		backgroundColor: theme.white,
-		paddingBottom: 0,
-	},
-
-	links: {},
-
-	linksInner: {
-		padding: `${theme.spacing.md} 0`,
-	},
-}))
-
 const Content = () => {
-	const { classes } = useStyles()
 	const location = useLocation()
 
 	return (
-		<Navbar.Section className={classes.links}>
-			<div className={classes.linksInner}>
-				{menu.map(item => (
-					<Links
-						{...item}
-						key={item.label}
-						currentTo={location.pathname}
-					/>
-				))}
-			</div>
+		<Navbar.Section py='sm'>
+			{menu.map(item => (
+				<Links
+					{...item}
+					key={item.label}
+					currentTo={location.pathname}
+				/>
+			))}
 		</Navbar.Section>
 	)
 }

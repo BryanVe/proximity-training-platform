@@ -1,34 +1,22 @@
 import {
-	createStyles,
 	Divider,
 	Drawer,
+	MediaQuery,
 	Navbar,
-	ScrollArea,
+	useMantineTheme,
 } from '@mantine/core'
 import { FC } from 'react'
 import { Content, Footer, Header } from './components'
 
-const useStyles = createStyles(theme => ({
-	drawer: {
-		[theme.fn.largerThan('sm')]: {
-			display: 'none',
-		},
-	},
-	drawerBody: {
-		height: '100vh',
-		display: 'flex',
-		flexDirection: 'column',
-	},
-}))
-
 type SidebarProps = {
+	width: number
 	opened: boolean
 	close: () => void
 }
 
 const Sidebar: FC<SidebarProps> = props => {
-	const { opened, close } = props
-	const { classes, theme } = useStyles()
+	const { opened, close, width } = props
+	const theme = useMantineTheme()
 
 	const content = (
 		<>
@@ -53,21 +41,23 @@ const Sidebar: FC<SidebarProps> = props => {
 			<Navbar
 				hidden
 				hiddenBreakpoint='sm'
+				w={width}
 			>
 				{content}
 			</Navbar>
-			<Drawer
-				opened={opened}
-				onClose={close}
-				withCloseButton={false}
-				className={classes.drawer}
-				classNames={{
-					body: classes.drawerBody,
-				}}
-				scrollAreaComponent={ScrollArea.Autosize}
+			<MediaQuery
+				largerThan='sm'
+				styles={{ display: 'none' }}
 			>
-				{content}
-			</Drawer>
+				<Drawer
+					size={width}
+					opened={opened}
+					onClose={close}
+					withCloseButton={false}
+				>
+					{content}
+				</Drawer>
+			</MediaQuery>
 		</>
 	)
 }
