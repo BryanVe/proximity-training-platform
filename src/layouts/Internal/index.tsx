@@ -28,6 +28,7 @@ const Internal = () => {
 					styles={{ marginTop: rem(topBarHeight) }}
 				>
 					<Box
+						w='100%'
 						component='main'
 						p='xl'
 					>
