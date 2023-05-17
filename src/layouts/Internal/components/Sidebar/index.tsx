@@ -42,6 +42,7 @@ const Sidebar: FC<SidebarProps> = props => {
 				hidden
 				hiddenBreakpoint='sm'
 				w={width}
+				miw={width}
 			>
 				{content}
 			</Navbar>
@@ -50,6 +51,7 @@ const Sidebar: FC<SidebarProps> = props => {
 				styles={{ display: 'none' }}
 			>
 				<Drawer
+					zIndex={800}
 					size={width}
 					opened={opened}
 					onClose={close}
