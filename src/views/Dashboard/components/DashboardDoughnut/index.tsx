@@ -1,7 +1,8 @@
-import { CustomDoughnut } from '@/components'
+import { CustomChart } from '@/components'
 import { MantineColor, px, useMantineTheme } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { FC } from 'react'
+import { Doughnut } from 'react-chartjs-2'
 
 type DashboardDoughnutProps = {
 	title: string
@@ -34,7 +35,6 @@ const DashboardDoughnut: FC<DashboardDoughnutProps> = props => {
 				font: {
 					weight: 'bold',
 					size: px(theme.fontSizes.xs),
-					family: theme.fontFamily,
 				},
 			},
 			tooltip: {
@@ -56,16 +56,15 @@ const DashboardDoughnut: FC<DashboardDoughnutProps> = props => {
 					font: {
 						weight: 'bold',
 						size: px(theme.fontSizes.md),
-						family: theme.fontFamily,
 					},
 				},
 				position: matches ? 'bottom' : 'right',
 				align: 'center',
 				labels: {
 					usePointStyle: true,
+					color: theme.colors.gray[4],
 					font: {
 						size: px(theme.fontSizes.sm),
-						family: theme.fontFamily,
 					},
 				},
 			},
@@ -73,8 +72,9 @@ const DashboardDoughnut: FC<DashboardDoughnutProps> = props => {
 	}
 
 	return (
-		<CustomDoughnut
+		<CustomChart
 			{...doughnutProps}
+			chart={Doughnut}
 			maw={500}
 			mih={400}
 			options={options}

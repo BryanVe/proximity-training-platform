@@ -1,1 +1,1 @@
-export { default as CustomDoughnut } from './CustomDoughnut'
+export { default as CustomChart } from './CustomChart'

@@ -1,11 +1,48 @@
 import { Box, Grid, rem, Text, Title, useMantineTheme } from '@mantine/core'
-import { ChartData } from 'chart.js'
-import { DashboardDoughnut } from './components'
+import { DashboardBar, DashboardDoughnut, DashboardTable } from './components'
+
+const data = [
+	{
+		id: '1',
+		date: 'May 11, 2021, 10:41:52 AM',
+		company: '<nombre_del_cliente>',
+		training: 'Escalera Telescópica',
+		status: 'INICIADO',
+	},
+	{
+		id: '2',
+		date: 'May 11, 2021, 10:41:52 AM',
+		company: '<nombre_del_cliente>',
+		training: 'Escalera Telescópica',
+		status: 'INICIADO',
+	},
+	{
+		id: '3',
+		date: 'May 11, 2021, 10:41:52 AM',
+		company: '<nombre_del_cliente>',
+		training: 'Escalera Telescópica',
+		status: 'INICIADO',
+	},
+	{
+		id: '4',
+		date: 'May 11, 2021, 10:41:52 AM',
+		company: '<nombre_del_cliente>',
+		training: 'Escalera Telescópica',
+		status: 'INICIADO',
+	},
+	{
+		id: '5',
+		date: 'May 11, 2021, 10:41:52 AM',
+		company: '<nombre_del_cliente>',
+		training: 'Escalera Telescópica',
+		status: 'INICIADO',
+	},
+]
 
 const Dashboard = () => {
 	const theme = useMantineTheme()
 
-	const mockedData1: ChartData<'doughnut', number[], string> = {
+	const mockedData1: DoughnutProps['data'] = {
 		labels: [
 			'Trabajos en Altura',
 			'Espacios Confinados',
@@ -23,7 +60,7 @@ const Dashboard = () => {
 		],
 	}
 
-	const mockedData2: ChartData<'doughnut', number[], string> = {
+	const mockedData2: DoughnutProps['data'] = {
 		labels: [
 			'Completado con Errores',
 			'Completado',
@@ -41,18 +78,36 @@ const Dashboard = () => {
 		],
 	}
 
+	const mockedData3: BarProps['data'] = {
+		labels: ['A', 'B', 'C'],
+		datasets: [
+			{
+				data: [537, 197, 116],
+				backgroundColor: [
+					theme.colors.gray[0],
+					theme.colors.gray[0],
+					theme.colors.gray[0],
+				],
+			},
+		],
+	}
+
 	return (
 		<Box
-			maw={rem(1200)}
+			maw={rem(1400)}
 			pb={rem(150)}
 			m='auto'
 		>
 			<Title color='gray.5'>Dashboard</Title>
+			<Title
+				color='gray.5'
+				size='h2'
+			>{`<nombre_de_empresa>`}</Title>
 			<Text>
 				Bienvenido al gestor web, aquí podrás visualizar métricas importantes
 				del pilotaje
 			</Text>
-			<Grid>
+			<Grid gutter='xl'>
 				<Grid.Col md={6}>
 					<DashboardDoughnut
 						title='Módulos Más Utilizados'
@@ -69,6 +124,26 @@ const Dashboard = () => {
 						cutout='40%'
 						dataLabelColor={theme.colors.gray[5]}
 					/>
+				</Grid.Col>
+				<Grid.Col md={6}>
+					<Title
+						color='gray.5'
+						size='h3'
+						mb='md'
+					>
+						Últimos Entrenamientos
+					</Title>
+					<DashboardTable data={data} />
+				</Grid.Col>
+				<Grid.Col md={6}>
+					<Title
+						color='gray.5'
+						size='h3'
+						mb='md'
+					>
+						Cantidad de Entrenamientos
+					</Title>
+					<DashboardBar data={mockedData3} />
 				</Grid.Col>
 			</Grid>
 		</Box>
