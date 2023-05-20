@@ -1,41 +1,26 @@
-import { Box, Grid, rem, Text, Title, useMantineTheme } from '@mantine/core'
-import { DashboardBar, DashboardDoughnut, DashboardTable } from './components'
+import { CustomTable } from '@/components'
+import { Badge, Grid, Text, Title, useMantineTheme } from '@mantine/core'
+import { DashboardBar, DashboardDoughnut } from './components'
 
-const data = [
+const mockedData4: LastTrainingData = new Array(5).fill('').map((_, index) => ({
+	id: `${index + 1}`,
+	date: 'May 11, 2021, 10:41:52 AM',
+	company: '<nombre_del_cliente>',
+	training: 'Escalera Telescópica',
+	status: 'COMPLETADO CON ERRORES',
+}))
+
+const columns: CustomTableColumns<LastTrainingData> = [
+	{ id: 'date', label: 'Fecha' },
+	{ id: 'company', label: 'Empresa' },
 	{
-		id: '1',
-		date: 'May 11, 2021, 10:41:52 AM',
-		company: '<nombre_del_cliente>',
-		training: 'Escalera Telescópica',
-		status: 'INICIADO',
+		id: 'training',
+		label: 'Entrenamiento',
 	},
 	{
-		id: '2',
-		date: 'May 11, 2021, 10:41:52 AM',
-		company: '<nombre_del_cliente>',
-		training: 'Escalera Telescópica',
-		status: 'INICIADO',
-	},
-	{
-		id: '3',
-		date: 'May 11, 2021, 10:41:52 AM',
-		company: '<nombre_del_cliente>',
-		training: 'Escalera Telescópica',
-		status: 'INICIADO',
-	},
-	{
-		id: '4',
-		date: 'May 11, 2021, 10:41:52 AM',
-		company: '<nombre_del_cliente>',
-		training: 'Escalera Telescópica',
-		status: 'INICIADO',
-	},
-	{
-		id: '5',
-		date: 'May 11, 2021, 10:41:52 AM',
-		company: '<nombre_del_cliente>',
-		training: 'Escalera Telescópica',
-		status: 'INICIADO',
+		id: 'status',
+		label: 'Estado',
+		render: data => <Badge>{data.status}</Badge>,
 	},
 ]
 
@@ -93,11 +78,7 @@ const Dashboard = () => {
 	}
 
 	return (
-		<Box
-			maw={rem(1400)}
-			pb={rem(150)}
-			m='auto'
-		>
+		<>
 			<Title color='gray.5'>Dashboard</Title>
 			<Title
 				color='gray.5'
@@ -133,7 +114,12 @@ const Dashboard = () => {
 					>
 						Últimos Entrenamientos
 					</Title>
-					<DashboardTable data={data} />
+					<CustomTable<LastTrainingData>
+						columns={columns}
+						data={mockedData4}
+						thBorderBottomColor={theme.colors.gray[0]}
+						miw={700}
+					/>
 				</Grid.Col>
 				<Grid.Col md={6}>
 					<Title
@@ -146,7 +132,7 @@ const Dashboard = () => {
 					<DashboardBar data={mockedData3} />
 				</Grid.Col>
 			</Grid>
-		</Box>
+		</>
 	)
 }
 

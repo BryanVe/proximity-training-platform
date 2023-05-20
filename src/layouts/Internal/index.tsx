@@ -25,12 +25,14 @@ const Internal = () => {
 				/>
 				<MediaQuery
 					smallerThan='sm'
-					styles={{ marginTop: rem(topBarHeight) }}
+					styles={{ marginTop: rem(topBarHeight), paddingBottom: rem(150) }}
 				>
 					<Box
-						w='100%'
 						component='main'
-						p='xl'
+						w='100%'
+						maw={1500}
+						mx='auto'
+						p={rem(32)}
 					>
 						<Outlet />
 					</Box>
