@@ -1,10 +1,4 @@
-import {
-	Divider,
-	Drawer,
-	MediaQuery,
-	Navbar,
-	useMantineTheme,
-} from '@mantine/core'
+import { Divider, Drawer, MediaQuery, Navbar } from '@mantine/core'
 import { FC } from 'react'
 import { Content, Footer, Header } from './components'
 
@@ -16,19 +10,18 @@ type SidebarProps = {
 
 const Sidebar: FC<SidebarProps> = props => {
 	const { opened, close, width } = props
-	const theme = useMantineTheme()
 
 	const content = (
 		<>
 			<Header />
 			<Divider
-				color={theme.colors.gray[1]}
+				color='gray.5'
 				label='Módulos'
 				labelPosition='center'
 			/>
 			<Content />
 			<Divider
-				color={theme.colors.gray[1]}
+				color='gray.5'
 				label='Configuración'
 				labelPosition='center'
 			/>

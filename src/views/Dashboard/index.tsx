@@ -69,9 +69,9 @@ const Dashboard = () => {
 			{
 				data: [537, 197, 116],
 				backgroundColor: [
-					theme.colors.gray[0],
-					theme.colors.gray[0],
-					theme.colors.gray[0],
+					theme.colors.gray[4],
+					theme.colors.gray[4],
+					theme.colors.gray[4],
 				],
 			},
 		],
@@ -79,9 +79,9 @@ const Dashboard = () => {
 
 	return (
 		<>
-			<Title color='gray.5'>Dashboard</Title>
+			<Title color='gray.8'>Dashboard</Title>
 			<Title
-				color='gray.5'
+				color='gray.8'
 				size='h2'
 			>{`<nombre_de_empresa>`}</Title>
 			<Text>
@@ -103,12 +103,12 @@ const Dashboard = () => {
 						title='Resultados Más Comunes'
 						data={mockedData2}
 						cutout='40%'
-						dataLabelColor={theme.colors.gray[5]}
+						dataLabelColor={theme.colors.gray[8]}
 					/>
 				</Grid.Col>
 				<Grid.Col md={6}>
 					<Title
-						color='gray.5'
+						color='gray.8'
 						size='h3'
 						mb='md'
 					>
@@ -117,13 +117,12 @@ const Dashboard = () => {
 					<CustomTable<LastTrainingData>
 						columns={columns}
 						data={mockedData4}
-						thBorderBottomColor={theme.colors.gray[0]}
 						miw={700}
 					/>
 				</Grid.Col>
 				<Grid.Col md={6}>
 					<Title
-						color='gray.5'
+						color='gray.8'
 						size='h3'
 						mb='md'
 					>

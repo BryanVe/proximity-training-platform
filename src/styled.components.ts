@@ -7,14 +7,14 @@ type CustomButtonProps = ButtonProps & {
 }
 
 const _CustomButton = styled(Button)<CustomButtonProps>`
-	background-color: ${props => props.bg || props.theme.colors.gray[5]};
+	background-color: ${props => props.bg || props.theme.colors.gray[8]};
 
 	&:hover {
-		background-color: ${props => props.hbg || props.theme.colors.gray[4]};
+		background-color: ${props => props.hbg || props.theme.colors.gray[7]};
 	}
 
 	&:active {
-		background-color: ${props => props.abg || props.theme.colors.gray[6]};
+		background-color: ${props => props.abg || props.theme.colors.gray[9]};
 	}
 `
 

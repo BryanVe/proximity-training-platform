@@ -19,7 +19,7 @@ const DashboardBar: FC<DashboardBarProps> = props => {
 					display: false,
 				},
 				ticks: {
-					color: theme.colors.gray[4],
+					color: theme.colors.gray[8],
 					font: {
 						weight: 'bold',
 					},
@@ -30,7 +30,7 @@ const DashboardBar: FC<DashboardBarProps> = props => {
 					display: false,
 				},
 				ticks: {
-					color: theme.colors.gray[4],
+					color: theme.colors.gray[8],
 					font: {
 						weight: 'bold',
 					},
@@ -44,6 +44,7 @@ const DashboardBar: FC<DashboardBarProps> = props => {
 			datalabels: {
 				align: 'bottom',
 				anchor: 'end',
+				color: theme.colors.gray[7],
 				font: {
 					weight: 'bold',
 					size: px(theme.fontSizes.xs),

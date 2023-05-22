@@ -52,7 +52,7 @@ const DashboardDoughnut: FC<DashboardDoughnutProps> = props => {
 				title: {
 					display: true,
 					text: title,
-					color: theme.colors.gray[5],
+					color: theme.colors.gray[8],
 					font: {
 						weight: 'bold',
 						size: px(theme.fontSizes.md),
@@ -62,7 +62,7 @@ const DashboardDoughnut: FC<DashboardDoughnutProps> = props => {
 				align: 'center',
 				labels: {
 					usePointStyle: true,
-					color: theme.colors.gray[4],
+					color: theme.colors.gray[7],
 					font: {
 						size: px(theme.fontSizes.sm),
 					},

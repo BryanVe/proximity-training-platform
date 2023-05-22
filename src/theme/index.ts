@@ -8,18 +8,6 @@ const theme: MantineThemeOverride = {
 		deg: 135,
 	},
 	colors: {
-		gray: [
-			'#C7C7C7',
-			'#A6A6A6',
-			'#858585',
-			'#656565',
-			'#444444',
-			'#3C3C3C',
-			'#343434',
-			'#2C2C2C',
-			'#232323',
-			'#1B1B1B',
-		],
 		pink: [
 			'#FBEBFF',
 			'#F0A7F2',
@@ -33,7 +21,7 @@ const theme: MantineThemeOverride = {
 			'#660847',
 		],
 	},
-	primaryColor: 'orange',
+	primaryColor: 'red',
 	components: {
 		Navbar: {
 			styles: theme => ({

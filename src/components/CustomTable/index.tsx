@@ -1,4 +1,4 @@
-import { Table, TableProps, MantineColor } from '@mantine/core'
+import { Table, TableProps } from '@mantine/core'
 import { TableContainer } from './styled.components'
 
 type CustomTableProps<T> = {
@@ -7,7 +7,6 @@ type CustomTableProps<T> = {
 	miw?: TableProps['miw']
 	paginationEnabled?: boolean
 	bordered?: boolean
-	thBorderBottomColor?: MantineColor
 	tdBorderTop?: boolean
 	striped?: TableProps['striped']
 	highlightOnHover?: TableProps['highlightOnHover']
@@ -20,7 +19,6 @@ function CustomTable<T extends CustomTableDefaultData>(
 		columns,
 		data,
 		miw,
-		thBorderBottomColor,
 		tdBorderTop = false,
 		striped,
 		highlightOnHover,
@@ -36,14 +34,7 @@ function CustomTable<T extends CustomTableDefaultData>(
 				<thead>
 					<tr>
 						{columns.map(column => (
-							<th
-								key={column.id.toString()}
-								style={{
-									borderBottomColor: thBorderBottomColor,
-								}}
-							>
-								{column.label}
-							</th>
+							<th key={column.id.toString()}>{column.label}</th>
 						))}
 					</tr>
 				</thead>

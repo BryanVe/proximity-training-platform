@@ -9,7 +9,7 @@ const useStyles = createStyles(theme => ({
 		display: 'block',
 		width: '100%',
 		fontWeight: 500,
-		color: theme.colors.gray[5],
+		color: theme.colors.gray[7],
 		fontSize: theme.fontSizes.sm,
 		borderRadius: theme.radius.sm,
 		padding: theme.spacing.sm,
