@@ -1,7 +1,7 @@
 import { MantineProvider } from '@mantine/core'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Notifications } from '@mantine/notifications'
-import { DashboardView, LoginView, TrainingsView } from './views'
+import { DashboardView, AuthView, TrainingsView } from './views'
 import { InternalLayout } from './layouts'
 import theme from './theme'
 
@@ -21,14 +21,14 @@ const App = () => (
 					index
 					element={
 						<Navigate
-							to='/login'
-							replace={true}
+							to='/auth'
+							replace
 						/>
 					}
 				/>
 				<Route
 					path='/login'
-					element={<LoginView />}
+					element={<AuthView />}
 				/>
 				<Route element={<InternalLayout />}>
 					<Route

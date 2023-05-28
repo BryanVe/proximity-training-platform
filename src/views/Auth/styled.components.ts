@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
 	background: ${({ theme }) => theme.fn.gradient(theme.defaultGradient)};
 `
 
-const _LoginContainer = styled(Paper)`
+const _AuthContainer = styled(Paper)`
 	display: flex;
 	flex-direction: column;
 	gap: ${({ theme }) => theme.spacing.lg};
@@ -18,6 +18,6 @@ const _LoginContainer = styled(Paper)`
 	border-radius: ${({ theme }) => theme.radius.lg};
 `
 
-export const LoginContainer = createPolymorphicComponent<'div', PaperProps>(
-	_LoginContainer
+export const AuthContainer = createPolymorphicComponent<'div', PaperProps>(
+	_AuthContainer
 )

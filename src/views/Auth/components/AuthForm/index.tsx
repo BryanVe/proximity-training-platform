@@ -35,7 +35,7 @@ const getInputErrorMessage = (message: string) => (
 	</Notification>
 )
 
-const LoginForm = () => {
+const AuthForm = () => {
 	const theme = useMantineTheme()
 	const navigate = useNavigate()
 	const form = useForm({
@@ -60,15 +60,15 @@ const LoginForm = () => {
 					: null,
 		},
 	})
-	const loginButtonColors = {
+	const authButtonColors = {
 		bg: theme.colors.red[5],
 		hbg: theme.fn.lighten(theme.colors.red[5], 0.1),
 		abg: theme.fn.darken(theme.colors.red[5], 0.1),
 	}
 
-	const login = (values: typeof form.values) => {
+	const auth = (values: typeof form.values) => {
 		try {
-			// TODO: implement fetching login to backend
+			// TODO: implement auth to backend
 			if (values.email === 'test@test.com' && values.password === 'test') {
 				notifications.show({
 					title: 'Inició sesión correctamente',
@@ -122,7 +122,7 @@ const LoginForm = () => {
 	}
 
 	return (
-		<Form onSubmit={form.onSubmit(login)}>
+		<Form onSubmit={form.onSubmit(auth)}>
 			<TextInput
 				w='100%'
 				size='md'
@@ -149,9 +149,9 @@ const LoginForm = () => {
 				type='submit'
 				size='md'
 				radius='sm'
-				bg={loginButtonColors.bg}
-				hbg={loginButtonColors.hbg}
-				abg={loginButtonColors.abg}
+				bg={authButtonColors.bg}
+				hbg={authButtonColors.hbg}
+				abg={authButtonColors.abg}
 			>
 				Iniciar sesión
 			</CustomButton>
@@ -159,4 +159,4 @@ const LoginForm = () => {
 	)
 }
 
-export default LoginForm
+export default AuthForm

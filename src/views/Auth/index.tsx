@@ -1,11 +1,11 @@
 import { Box, Image, Text, Title } from '@mantine/core'
-import { LoginForm } from './components'
-import { Wrapper, LoginContainer } from './styled.components'
+import { AuthForm } from './components'
+import { Wrapper, AuthContainer } from './styled.components'
 import proximityLogo from '@/assets/images/proximity_logo.png'
 
-const LoginView = () => (
+const AuthView = () => (
 	<Wrapper>
-		<LoginContainer
+		<AuthContainer
 			shadow='xs'
 			p='md'
 		>
@@ -28,9 +28,9 @@ const LoginView = () => (
 			<Text ta='center'>
 				Accede al <b>Portal de Entrenamiento</b>
 			</Text>
-			<LoginForm />
-		</LoginContainer>
+			<AuthForm />
+		</AuthContainer>
 	</Wrapper>
 )
 
-export default LoginView
+export default AuthView
