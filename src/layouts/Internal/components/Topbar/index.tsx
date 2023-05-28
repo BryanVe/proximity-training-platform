@@ -32,7 +32,7 @@ const Topbar: FC<TopbarProps> = props => {
 				/>
 				<Title size='h3'>Proximity</Title>
 				<ActionIcon
-					color='gray.3'
+					color='gray.7'
 					size='lg'
 					radius='md'
 					variant='outline'

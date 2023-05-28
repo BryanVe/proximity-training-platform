@@ -13,7 +13,7 @@ const menu = [
 		to: '/dashboard',
 	},
 	{
-		label: 'Entrenamiento',
+		label: 'Entrenamientos',
 		icon: faBoxesStacked,
 		to: '/training',
 	},

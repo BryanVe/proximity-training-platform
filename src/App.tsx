@@ -1,7 +1,7 @@
 import { MantineProvider } from '@mantine/core'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Notifications } from '@mantine/notifications'
-import { DashboardView, LoginView, TrainingView } from './views'
+import { DashboardView, LoginView, TrainingsView } from './views'
 import { InternalLayout } from './layouts'
 import theme from './theme'
 
@@ -37,7 +37,7 @@ const App = () => (
 					/>
 					<Route
 						path='/training'
-						element={<TrainingView />}
+						element={<TrainingsView />}
 					/>
 				</Route>
 			</Routes>
