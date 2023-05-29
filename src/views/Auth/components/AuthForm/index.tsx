@@ -1,7 +1,6 @@
 import {
 	Notification,
 	PasswordInput,
-	rem,
 	TextInput,
 	useMantineTheme,
 } from '@mantine/core'
@@ -10,9 +9,11 @@ import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 import { CustomButton } from '@/styled.components'
 import { Form } from './styled.components'
 import { useForm } from '@mantine/form'
-import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { notifications } from '@mantine/notifications'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
+import { authRequest } from '@/request'
+import { notifications } from '@/utils'
 
 const getInputErrorMessage = (message: string) => (
 	<Notification
@@ -43,7 +44,6 @@ const AuthForm = () => {
 			email: '',
 			password: '',
 		},
-
 		validate: {
 			email: value => {
 				if (!value)
@@ -60,69 +60,43 @@ const AuthForm = () => {
 					: null,
 		},
 	})
+	const { mutate: auth } = useMutation<
+		AuthResponse,
+		ErrorResponse,
+		CredentialsDTO
+	>(authRequest, {
+		onSuccess: data => {
+			const { organization } = data.message
+
+			// TODO: save the user in the state
+			console.log(data.message)
+
+			notifications.success(
+				'Inició sesión correctamente',
+				`Bienvenido ${organization}`
+			)
+
+			navigate('/dashboard', {
+				replace: true,
+			})
+		},
+		onError: error => {
+			if (error.response)
+				notifications.error(
+					'Error al iniciar sesión',
+					error.response.data.message
+				)
+		},
+	})
+
 	const authButtonColors = {
 		bg: theme.colors.red[5],
 		hbg: theme.fn.lighten(theme.colors.red[5], 0.1),
 		abg: theme.fn.darken(theme.colors.red[5], 0.1),
 	}
 
-	const auth = (values: typeof form.values) => {
-		try {
-			// TODO: implement auth to backend
-			if (values.email === 'test@test.com' && values.password === 'test') {
-				notifications.show({
-					title: 'Inició sesión correctamente',
-					message: 'Bienvenido <nombre_de_empresa>',
-					icon: <FontAwesomeIcon icon={faCheck} />,
-					styles: theme => ({
-						root: {
-							backgroundColor: theme.colors.green[0],
-							border: `${rem(1)} solid ${theme.colors.green[7]}`,
-							boxShadow: 'none',
-						},
-						icon: {
-							backgroundColor: theme.colors.green[7],
-						},
-						title: {
-							fontWeight: 600,
-							color: theme.colors.green[7],
-							fontSize: theme.fontSizes.md,
-						},
-					}),
-				})
-
-				return navigate('/dashboard', {
-					replace: true,
-				})
-			}
-
-			notifications.show({
-				title: 'Error al iniciar sesión',
-				message: 'Ocurrió el siguiente error: ....',
-				icon: <FontAwesomeIcon icon={faXmark} />,
-				styles: theme => ({
-					root: {
-						backgroundColor: theme.colors.red[0],
-						border: `${rem(1)} solid ${theme.colors.red[7]}`,
-						boxShadow: 'none',
-					},
-					icon: {
-						backgroundColor: theme.colors.red[7],
-					},
-					title: {
-						fontWeight: 600,
-						color: theme.colors.red[7],
-						fontSize: theme.fontSizes.md,
-					},
-				}),
-			})
-		} catch (error) {
-			console.log(error)
-		}
-	}
-
 	return (
-		<Form onSubmit={form.onSubmit(auth)}>
+		<Form onSubmit={form.onSubmit(values => auth(values))}>
 			<TextInput
 				w='100%'
 				size='md'
