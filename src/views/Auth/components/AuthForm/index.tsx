@@ -13,7 +13,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { authRequest } from '@/request'
-import { notifications } from '@/utils'
+import { notifications, setUserSession } from '@/utils'
 
 const getInputErrorMessage = (message: string) => (
 	<Notification
@@ -60,16 +60,14 @@ const AuthForm = () => {
 					: null,
 		},
 	})
-	const { mutate: auth } = useMutation<
+	const { mutate: auth, isLoading: isAuthLoading } = useMutation<
 		AuthResponse,
 		ErrorResponse,
 		CredentialsDTO
 	>(authRequest, {
 		onSuccess: data => {
 			const { organization } = data.message
-
-			// TODO: save the user in the state
-			console.log(data.message)
+			setUserSession(data.message)
 
 			notifications.success(
 				'Inició sesión correctamente',
@@ -103,7 +101,9 @@ const AuthForm = () => {
 				type='email'
 				variant='filled'
 				placeholder='Email'
-				{...form.getInputProps('email')}
+				{...form.getInputProps('email', {
+					withFocus: false,
+				})}
 			/>
 			<PasswordInput
 				w='100%'
@@ -117,7 +117,9 @@ const AuthForm = () => {
 						<FontAwesomeIcon icon={faEye} />
 					)
 				}
-				{...form.getInputProps('password')}
+				{...form.getInputProps('password', {
+					withFocus: false,
+				})}
 			/>
 			<CustomButton
 				type='submit'
@@ -126,6 +128,7 @@ const AuthForm = () => {
 				bg={authButtonColors.bg}
 				hbg={authButtonColors.hbg}
 				abg={authButtonColors.abg}
+				loading={isAuthLoading}
 			>
 				Iniciar sesión
 			</CustomButton>

@@ -1,4 +1,5 @@
 import { CustomTable } from '@/components'
+import { getUserSession } from '@/utils'
 import { Badge, Grid, Text, Title, useMantineTheme } from '@mantine/core'
 import { DashboardBar, DashboardDoughnut } from './components'
 
@@ -25,6 +26,7 @@ const columns: CustomTableColumns<LastTrainingData> = [
 ]
 
 const Dashboard = () => {
+	const userSession = getUserSession()
 	const theme = useMantineTheme()
 
 	const mockedData1: DoughnutProps['data'] = {
@@ -80,10 +82,14 @@ const Dashboard = () => {
 	return (
 		<>
 			<Title color='gray.8'>Dashboard</Title>
-			<Title
-				color='gray.8'
-				size='h2'
-			>{`<nombre_de_empresa>`}</Title>
+			{userSession && (
+				<Title
+					color='gray.8'
+					size='h2'
+				>
+					{userSession.organization}
+				</Title>
+			)}
 			<Text>
 				Bienvenido al gestor web, aquí podrás visualizar métricas importantes
 				del pilotaje

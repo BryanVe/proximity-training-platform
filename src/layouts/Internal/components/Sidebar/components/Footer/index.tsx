@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Navbar } from '@mantine/core'
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import Links from '../Links'
+import { removeUserSession } from '@/utils'
 
 const Content = () => {
 	const location = useLocation()
@@ -11,10 +12,12 @@ const Content = () => {
 		{
 			label: 'Cerrar sesión',
 			icon: faRightFromBracket,
-			onClick: () =>
+			onClick: () => {
+				removeUserSession()
 				navigate('/', {
 					replace: true,
-				}),
+				})
+			},
 		},
 	]
 

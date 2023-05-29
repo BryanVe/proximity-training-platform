@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { Wrapper } from './styled.components'
+import { removeUserSession } from '@/utils'
 
 type TopbarProps = {
 	height: number
@@ -36,11 +37,12 @@ const Topbar: FC<TopbarProps> = props => {
 					size='lg'
 					radius='md'
 					variant='outline'
-					onClick={() =>
+					onClick={() => {
+						removeUserSession()
 						navigate('/', {
 							replace: true,
 						})
-					}
+					}}
 				>
 					<FontAwesomeIcon icon={faRightFromBracket} />
 				</ActionIcon>

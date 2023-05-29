@@ -1,6 +1,7 @@
+import { getUserSession } from '@/utils'
 import { Box, Flex, MediaQuery, rem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import { Sidebar, Topbar } from './components'
 import { MainContainer } from './styled.components'
 
@@ -9,6 +10,15 @@ const topBarHeight = 64
 
 const Internal = () => {
 	const [opened, { open, close }] = useDisclosure()
+	const userSession = getUserSession()
+
+	if (!userSession)
+		return (
+			<Navigate
+				replace
+				to='/'
+			/>
+		)
 
 	return (
 		<Flex>
