@@ -5,15 +5,19 @@ import {
 	getMostCommonResultsRequest,
 	getMostUsedModulesRequest,
 } from '@/request'
-import { getUserSession } from '@/utils'
+import { formatDate, getUserSession } from '@/utils'
 import { getColorForResult } from '@/utils/results'
 import { Badge, Grid, Text, Title, useMantineTheme } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import { DashboardBar, DashboardDoughnut } from './components'
 
 const columns: CustomTableColumns<LastTrainingDTO[]> = [
-	{ id: 'startDate', label: 'Fecha' },
-	{ id: 'organization', label: 'Organización' },
+	{
+		id: 'startDate',
+		label: 'Fecha',
+		render: date => <>{formatDate(date.startDate)}</>,
+	},
+	{ id: 'organization', label: 'Nombre' },
 	{
 		id: 'module',
 		label: 'Módulo',
