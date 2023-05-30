@@ -43,6 +43,9 @@ const Dashboard = () => {
 				organization: queryKey[1],
 				limit: constants.MAX_CHART_RESULTS,
 			})
+		},
+		{
+			refetchOnWindowFocus: false,
 		}
 	)
 	const { data: mostCommonResults } = useQuery(
@@ -54,6 +57,9 @@ const Dashboard = () => {
 				organization: queryKey[1],
 				limit: constants.MAX_CHART_RESULTS,
 			})
+		},
+		{
+			refetchOnWindowFocus: false,
 		}
 	)
 	const { data: lastTrainings } = useQuery(
@@ -65,6 +71,9 @@ const Dashboard = () => {
 				organization: queryKey[1],
 				limit: constants.MAX_CHART_RESULTS,
 			})
+		},
+		{
+			refetchOnWindowFocus: false,
 		}
 	)
 
