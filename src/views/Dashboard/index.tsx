@@ -30,22 +30,28 @@ const columns: CustomTableColumns<LastTrainingDTO[]> = [
 const Dashboard = () => {
 	const userSession = getUserSession()
 	const theme = useMantineTheme()
-	const { data: mostUsedModules } = useQuery(['mostUsedModules'], () => {
-		if (!userSession) return
+	const { data: mostUsedModules } = useQuery(
+		['mostUsedModules', userSession?.organization],
+		({ queryKey }) => {
+			if (!queryKey[1]) return
 
-		return getMostUsedModulesRequest({
-			organization: userSession.organization,
-			limit: constants.MAX_CHART_RESULTS,
-		})
-	})
-	const { data: mostCommonResults } = useQuery(['mostCommonResults'], () => {
-		if (!userSession) return
+			return getMostUsedModulesRequest({
+				organization: queryKey[1],
+				limit: constants.MAX_CHART_RESULTS,
+			})
+		}
+	)
+	const { data: mostCommonResults } = useQuery(
+		['mostCommonResults', userSession?.organization],
+		({ queryKey }) => {
+			if (!queryKey[1]) return
 
-		return getMostCommonResultsRequest({
-			organization: userSession.organization,
-			limit: constants.MAX_CHART_RESULTS,
-		})
-	})
+			return getMostCommonResultsRequest({
+				organization: queryKey[1],
+				limit: constants.MAX_CHART_RESULTS,
+			})
+		}
+	)
 	const { data: lastTrainings } = useQuery(
 		['lastTrainings', userSession?.organization],
 		({ queryKey }) => {
