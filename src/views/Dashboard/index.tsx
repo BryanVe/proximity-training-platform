@@ -1,6 +1,9 @@
 import { CustomTable } from '@/components'
+import { constants } from '@/config'
+import { getMostUsedModulesRequest } from '@/request'
 import { getUserSession } from '@/utils'
 import { Badge, Grid, Text, Title, useMantineTheme } from '@mantine/core'
+import { useQuery } from '@tanstack/react-query'
 import { DashboardBar, DashboardDoughnut } from './components'
 
 const mockedData4: LastTrainingData = new Array(5).fill('').map((_, index) => ({
@@ -28,21 +31,23 @@ const columns: CustomTableColumns<LastTrainingData> = [
 const Dashboard = () => {
 	const userSession = getUserSession()
 	const theme = useMantineTheme()
+	const { data: mostUsedModules } = useQuery(['mostUsedModules'], () => {
+		if (!userSession) return
 
-	const mockedData1: DoughnutProps['data'] = {
-		labels: [
-			'Trabajos en Altura',
-			'Espacios Confinados',
-			'Zanjas y Excavaciones',
-			'Trabajos en Caliente',
-			'Desatado de Rocas',
-			'Intervenciones Críticas',
-			'Inducción de Seguridad',
-		],
+		return getMostUsedModulesRequest({
+			organization: userSession.organization,
+			limit: constants.MAX_CHART_RESULTS,
+		})
+	})
+
+	const mostUsedModulesData: DoughnutProps['data'] = {
+		labels: mostUsedModules?.message.map(m => m.module),
 		datasets: [
 			{
-				data: [244, 156, 148, 100, 83, 72, 62],
-				backgroundColor: theme.colors.pink.sort().slice(3),
+				data: mostUsedModules?.message.map(m => m.quantity),
+				backgroundColor: mostUsedModules?.message.map((_, index) =>
+					theme.fn.lighten(theme.colors.pink[5], 0.1 * index)
+				),
 			},
 		],
 	}
@@ -98,7 +103,7 @@ const Dashboard = () => {
 				<Grid.Col md={6}>
 					<DashboardDoughnut
 						title='Módulos Más Utilizados'
-						data={mockedData1}
+						data={mostUsedModulesData}
 						cutout='60%'
 						dataLabelColor={theme.white}
 					/>

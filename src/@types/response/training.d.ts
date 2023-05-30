@@ -1,0 +1,1 @@
+type MostUsedModulesResponse = CustomResponse<MostUsedModuleDTO[]>

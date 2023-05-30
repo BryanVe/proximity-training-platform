@@ -1,12 +1,4 @@
-import { keys } from '@/config'
-import axios from 'axios'
-
-const axiosInstance = axios.create({
-	baseURL: keys.API_URL,
-	headers: {
-		'Content-Type': 'application/json',
-	},
-})
+import { axiosInstance } from '.'
 
 export const authRequest = async (
 	credentials: CredentialsDTO
