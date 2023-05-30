@@ -44,7 +44,7 @@ const Sidebar: FC<SidebarProps> = props => {
 				styles={{ display: 'none' }}
 			>
 				<Drawer
-					zIndex={800}
+					zIndex={3000}
 					size={width}
 					opened={opened}
 					onClose={close}

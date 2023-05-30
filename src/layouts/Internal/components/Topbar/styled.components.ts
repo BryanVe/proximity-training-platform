@@ -9,4 +9,5 @@ export const Wrapper = styled(Flex)`
 	right: 0;
 	padding: ${({ theme }) => theme.spacing.md};
 	box-shadow: 0px 1px 16px -8px rgba(68, 68, 68, 0.59);
+	z-index: 1000;
 `

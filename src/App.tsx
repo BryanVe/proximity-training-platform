@@ -17,7 +17,8 @@ const App = () => (
 		>
 			<Notifications
 				position='bottom-center'
-				zIndex={1000}
+				autoClose={1000}
+				zIndex={5000}
 			/>
 			<BrowserRouter>
 				<Routes>

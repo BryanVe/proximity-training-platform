@@ -35,7 +35,7 @@ const Internal = () => {
 				/>
 				<MediaQuery
 					smallerThan='sm'
-					styles={{ marginTop: rem(topBarHeight), paddingBottom: rem(150) }}
+					styles={{ marginTop: rem(topBarHeight) }}
 				>
 					<Box
 						component='main'
@@ -43,6 +43,9 @@ const Internal = () => {
 						maw={1500}
 						mx='auto'
 						p={rem(32)}
+						style={{
+							overflow: 'auto',
+						}}
 					>
 						<Outlet />
 					</Box>
