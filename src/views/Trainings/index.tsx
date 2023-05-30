@@ -1,4 +1,5 @@
 import { CustomTable } from '@/components'
+import { constants } from '@/config'
 import { getAvailableModules, getTrainings } from '@/request'
 import { formatDate, getDifferenceFromDates, getUserSession } from '@/utils'
 import { getColorForResult } from '@/utils/results'
@@ -145,12 +146,14 @@ const Training = () => {
 							size='h3'
 							mb='md'
 						>
-							Errores críticos
+							{selectedTraining.module === constants.SCOOP_MODULE
+								? constants.SCOOP_MODULE_NAMES.criticalErrors
+								: constants.REGULAR_MODULE_NAMES.criticalErrors}
 						</Title>
 						{selectedTraining.criticalErrors ? (
 							JSON.stringify(selectedTraining.criticalErrors)
 						) : (
-							<Text>No se encontró errores críticos</Text>
+							<Text>No se encontró resultados</Text>
 						)}
 					</Grid.Col>
 					<Grid.Col md={6}>
@@ -159,12 +162,14 @@ const Training = () => {
 							size='h3'
 							mb='md'
 						>
-							EPPs incorrectamente tomados
+							{selectedTraining.module === constants.SCOOP_MODULE
+								? constants.SCOOP_MODULE_NAMES.eppIncorrectamenteTomados
+								: constants.REGULAR_MODULE_NAMES.eppIncorrectamenteTomados}
 						</Title>
 						{selectedTraining.eppIncorrectamenteTomados ? (
 							JSON.stringify(selectedTraining.eppIncorrectamenteTomados)
 						) : (
-							<Text>No se encontró EPPs incorrectamente tomados</Text>
+							<Text>No se encontró resultados</Text>
 						)}
 					</Grid.Col>
 					<Grid.Col md={6}>
@@ -173,12 +178,14 @@ const Training = () => {
 							size='h3'
 							mb='md'
 						>
-							Errores menores
+							{selectedTraining.module === constants.SCOOP_MODULE
+								? constants.SCOOP_MODULE_NAMES.minorErrors
+								: constants.REGULAR_MODULE_NAMES.minorErrors}
 						</Title>
 						{selectedTraining.minorErrors ? (
 							JSON.stringify(selectedTraining.minorErrors)
 						) : (
-							<Text>No se encontró errores menores</Text>
+							<Text>No se encontró resultados</Text>
 						)}
 					</Grid.Col>
 					<Grid.Col md={6}>
@@ -187,12 +194,14 @@ const Training = () => {
 							size='h3'
 							mb='md'
 						>
-							EPPs no tomados
+							{selectedTraining.module === constants.SCOOP_MODULE
+								? constants.SCOOP_MODULE_NAMES.eppNoTomados
+								: constants.REGULAR_MODULE_NAMES.eppNoTomados}
 						</Title>
 						{selectedTraining.eppNoTomados ? (
 							JSON.stringify(selectedTraining.eppNoTomados)
 						) : (
-							<Text>No se encontró EPPs no tomados</Text>
+							<Text>No se encontró resultados</Text>
 						)}
 					</Grid.Col>
 				</Grid>
