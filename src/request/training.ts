@@ -21,3 +21,14 @@ export const getMostCommonResultsRequest = async (
 
 	return response.data
 }
+
+export const getLastTrainingsRequest = async (
+	filters: OrganizationFiltersDTO
+): Promise<LastTrainingsResponse> => {
+	const response = await axiosInstance.post<LastTrainingsResponse>(
+		`/training/last`,
+		filters
+	)
+
+	return response.data
+}

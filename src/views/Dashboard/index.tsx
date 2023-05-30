@@ -1,33 +1,29 @@
 import { CustomTable } from '@/components'
 import { constants } from '@/config'
 import {
+	getLastTrainingsRequest,
 	getMostCommonResultsRequest,
 	getMostUsedModulesRequest,
 } from '@/request'
 import { getUserSession } from '@/utils'
+import { getColorForResult } from '@/utils/results'
 import { Badge, Grid, Text, Title, useMantineTheme } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import { DashboardBar, DashboardDoughnut } from './components'
 
-const mockedData4: LastTrainingData = new Array(5).fill('').map((_, index) => ({
-	id: `${index + 1}`,
-	date: 'May 11, 2021, 10:41:52 AM',
-	company: '<nombre_del_cliente>',
-	training: 'Escalera Telescópica',
-	status: 'COMPLETADO CON ERRORES',
-}))
-
-const columns: CustomTableColumns<LastTrainingData> = [
-	{ id: 'date', label: 'Fecha' },
-	{ id: 'company', label: 'Empresa' },
+const columns: CustomTableColumns<LastTrainingDTO[]> = [
+	{ id: 'startDate', label: 'Fecha' },
+	{ id: 'organization', label: 'Organización' },
 	{
-		id: 'training',
-		label: 'Entrenamiento',
+		id: 'module',
+		label: 'Módulo',
 	},
 	{
-		id: 'status',
-		label: 'Estado',
-		render: data => <Badge>{data.status}</Badge>,
+		id: 'result',
+		label: 'Resultado',
+		render: data => (
+			<Badge color={getColorForResult(data.result)}>{data.result}</Badge>
+		),
 	},
 ]
 
@@ -50,6 +46,17 @@ const Dashboard = () => {
 			limit: constants.MAX_CHART_RESULTS,
 		})
 	})
+	const { data: lastTrainings } = useQuery(
+		['lastTrainings', userSession?.organization],
+		({ queryKey }) => {
+			if (!queryKey[1]) return
+
+			return getLastTrainingsRequest({
+				organization: queryKey[1],
+				limit: constants.MAX_CHART_RESULTS,
+			})
+		}
+	)
 
 	const mostUsedModulesData: DoughnutProps['data'] = {
 		labels: mostUsedModules?.message.map(m => m.module),
@@ -130,9 +137,9 @@ const Dashboard = () => {
 					>
 						Últimos Entrenamientos
 					</Title>
-					<CustomTable<LastTrainingData>
+					<CustomTable<LastTrainingDTO[]>
 						columns={columns}
-						data={mockedData4}
+						data={lastTrainings?.message || []}
 						miw={700}
 					/>
 				</Grid.Col>
