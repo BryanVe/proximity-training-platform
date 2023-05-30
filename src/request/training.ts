@@ -10,3 +10,14 @@ export const getMostUsedModulesRequest = async (
 
 	return response.data
 }
+
+export const getMostCommonResultsRequest = async (
+	filters: OrganizationFiltersDTO
+): Promise<MostCommonResultsResponse> => {
+	const response = await axiosInstance.post<MostCommonResultsResponse>(
+		`/training/most-common-results`,
+		filters
+	)
+
+	return response.data
+}

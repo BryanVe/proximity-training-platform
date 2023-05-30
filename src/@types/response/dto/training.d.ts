@@ -27,7 +27,7 @@ type MostUsedModuleDTO = {
 
 type MostCommonResultDTO = {
 	result: string
-	quantity: number
+	percentage: number
 }
 
 type LastTrainingDTO = {

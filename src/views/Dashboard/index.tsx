@@ -1,6 +1,9 @@
 import { CustomTable } from '@/components'
 import { constants } from '@/config'
-import { getMostUsedModulesRequest } from '@/request'
+import {
+	getMostCommonResultsRequest,
+	getMostUsedModulesRequest,
+} from '@/request'
 import { getUserSession } from '@/utils'
 import { Badge, Grid, Text, Title, useMantineTheme } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
@@ -39,6 +42,14 @@ const Dashboard = () => {
 			limit: constants.MAX_CHART_RESULTS,
 		})
 	})
+	const { data: mostCommonResults } = useQuery(['mostCommonResults'], () => {
+		if (!userSession) return
+
+		return getMostCommonResultsRequest({
+			organization: userSession.organization,
+			limit: constants.MAX_CHART_RESULTS,
+		})
+	})
 
 	const mostUsedModulesData: DoughnutProps['data'] = {
 		labels: mostUsedModules?.message.map(m => m.module),
@@ -52,20 +63,14 @@ const Dashboard = () => {
 		],
 	}
 
-	const mockedData2: DoughnutProps['data'] = {
-		labels: [
-			'Completado con Errores',
-			'Completado',
-			'No Completado',
-			'Interrumpido',
-			'Aprobado',
-			'Desaprobado',
-			'Iniciado',
-		],
+	const mostCommonResultsData: DoughnutProps['data'] = {
+		labels: mostCommonResults?.message.map(m => m.result),
 		datasets: [
 			{
-				data: [32.8, 16.8, 13.8, 11.1, 9.7, 7.5, 8.3],
-				backgroundColor: theme.colors.yellow.sort().slice(3),
+				data: mostCommonResults?.message.map(m => m.percentage),
+				backgroundColor: mostCommonResults?.message.map((_, index) =>
+					theme.fn.lighten(theme.colors.yellow[6], 0.1 * index)
+				),
 			},
 		],
 	}
@@ -112,7 +117,7 @@ const Dashboard = () => {
 					<DashboardDoughnut
 						isPercentage
 						title='Resultados Más Comunes'
-						data={mockedData2}
+						data={mostCommonResultsData}
 						cutout='40%'
 						dataLabelColor={theme.colors.gray[8]}
 					/>
