@@ -32,3 +32,25 @@ export const getLastTrainingsRequest = async (
 
 	return response.data
 }
+
+export const getAvailableModules = async (
+	filters: OrganizationFiltersDTO
+): Promise<AvailableModulesResponse> => {
+	const response = await axiosInstance.post<AvailableModulesResponse>(
+		`/training/available-modules`,
+		filters
+	)
+
+	return response.data
+}
+
+export const getTrainings = async (
+	filters: TrainingsFiltersDTO
+): Promise<TrainingsResponse> => {
+	const response = await axiosInstance.post<TrainingsResponse>(
+		`/training`,
+		filters
+	)
+
+	return response.data
+}
