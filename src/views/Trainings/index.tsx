@@ -47,8 +47,6 @@ const Training = () => {
 		<>
 			<Title color='gray.8'>Entrenamientos</Title>
 			<CustomTable<TrainingData>
-				striped
-				highlightOnHover
 				columns={columns}
 				data={mockedData4}
 				miw={1200}

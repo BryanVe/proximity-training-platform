@@ -8,28 +8,19 @@ type CustomTableProps<T> = {
 	paginationEnabled?: boolean
 	bordered?: boolean
 	tdBorderTop?: boolean
-	striped?: TableProps['striped']
-	highlightOnHover?: TableProps['highlightOnHover']
 }
 
 function CustomTable<T extends CustomTableDefaultData>(
 	props: CustomTableProps<T>
 ) {
-	const {
-		columns,
-		data,
-		miw,
-		tdBorderTop = false,
-		striped,
-		highlightOnHover,
-	} = props
+	const { columns, data, miw, tdBorderTop = false } = props
 
 	return (
 		<TableContainer>
 			<Table
+				striped
+				highlightOnHover
 				miw={miw}
-				striped={striped}
-				highlightOnHover={highlightOnHover}
 			>
 				<thead>
 					<tr>
