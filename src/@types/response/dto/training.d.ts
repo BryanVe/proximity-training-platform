@@ -20,7 +20,7 @@ type OrganizationFiltersDTO = {
 	limit?: number
 }
 
-type MostUsedModuleDTO = {
+type ModuleDTO = {
 	module: string
 	quantity: number
 }

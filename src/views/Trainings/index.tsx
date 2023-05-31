@@ -91,7 +91,11 @@ const Training = () => {
 	)
 
 	const [selectedModule, setSelectedModule] = useState<string | null>()
-	const selectedTrainingModule = selectedModule || availableModules?.message[0]
+	const selectedTrainingModule = selectedModule
+		? selectedModule
+		: availableModules
+		? Object.keys(availableModules.message)[0]
+		: ''
 
 	const { data: trainings } = useQuery(
 		['trainings', userSession?.organization, selectedTrainingModule],
@@ -122,14 +126,19 @@ const Training = () => {
 		<>
 			<Title color='gray.8'>Entrenamientos</Title>
 			<Select
-				mt='md'
+				my='md'
 				maw={300}
 				label='Selecciona un módulo para realizar el filtrado'
 				placeholder='Módulo'
-				data={availableModules?.message || []}
+				data={availableModules ? Object.keys(availableModules.message) : []}
 				value={selectedTrainingModule}
 				onChange={selectModule}
 			/>
+			{selectedTrainingModule && availableModules && (
+				<Text size='sm'>
+					{availableModules.message[selectedTrainingModule]} resultados
+				</Text>
+			)}
 			<CustomTable<TrainingDTO[]>
 				columns={columns}
 				data={trainings?.message || []}
