@@ -20,16 +20,6 @@ type OrganizationFiltersDTO = {
 	limit?: number
 }
 
-type ModuleDTO = {
-	module: string
-	quantity: number
-}
-
-type MostCommonResultDTO = {
-	result: string
-	percentage: number
-}
-
 type LastTrainingDTO = {
 	id: number
 	organization?: string

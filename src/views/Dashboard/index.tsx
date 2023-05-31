@@ -78,25 +78,29 @@ const Dashboard = () => {
 	)
 
 	const mostUsedModulesData: DoughnutProps['data'] = {
-		labels: mostUsedModules?.message.map(m => m.module),
+		labels: mostUsedModules ? Object.keys(mostUsedModules.message) : [],
 		datasets: [
 			{
-				data: mostUsedModules?.message.map(m => m.quantity),
-				backgroundColor: mostUsedModules?.message.map((_, index) =>
-					theme.fn.lighten(theme.colors.pink[5], 0.1 * index)
-				),
+				data: mostUsedModules ? Object.values(mostUsedModules.message) : [],
+				backgroundColor: mostUsedModules
+					? Object.keys(mostUsedModules.message).map((_, index) =>
+							theme.fn.lighten(theme.colors.pink[5], 0.1 * index)
+					  )
+					: [],
 			},
 		],
 	}
 
 	const mostCommonResultsData: DoughnutProps['data'] = {
-		labels: mostCommonResults?.message.map(m => m.result),
+		labels: mostCommonResults ? Object.keys(mostCommonResults.message) : [],
 		datasets: [
 			{
-				data: mostCommonResults?.message.map(m => m.percentage),
-				backgroundColor: mostCommonResults?.message.map((_, index) =>
-					theme.fn.lighten(theme.colors.yellow[6], 0.1 * index)
-				),
+				data: mostCommonResults ? Object.values(mostCommonResults.message) : [],
+				backgroundColor: mostCommonResults
+					? Object.keys(mostCommonResults.message).map((_, index) =>
+							theme.fn.lighten(theme.colors.yellow[6], 0.1 * index)
+					  )
+					: [],
 			},
 		],
 	}
