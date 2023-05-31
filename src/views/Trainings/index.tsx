@@ -136,7 +136,10 @@ const Training = () => {
 			/>
 			{selectedTrainingModule && availableModules && (
 				<Text size='sm'>
-					{availableModules.message[selectedTrainingModule]} resultados
+					{availableModules.message[selectedTrainingModule]}{' '}
+					{availableModules.message[selectedTrainingModule] > 1
+						? 'resultados'
+						: 'resultado'}
 				</Text>
 			)}
 			<CustomTable<TrainingDTO[]>
