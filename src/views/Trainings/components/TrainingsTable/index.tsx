@@ -1,19 +1,36 @@
 import { CustomTable } from '@/components'
-import { formatDate, getColorForResult, getDifferenceFromDates } from '@/utils'
+import { getTrainings } from '@/request'
+import {
+	formatDate,
+	getColorForResult,
+	getDifferenceFromDates,
+	getUserSession,
+} from '@/utils'
 import { faFile } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ActionIcon, Badge, Flex, Loader, Text, Tooltip } from '@mantine/core'
+import {
+	ActionIcon,
+	Badge,
+	Flex,
+	Loader,
+	Pagination,
+	Text,
+	Tooltip,
+} from '@mantine/core'
+import { usePagination } from '@mantine/hooks'
+import { useQuery } from '@tanstack/react-query'
 import { FC, useState } from 'react'
 import ExtraInfo from '../ExtraInfo'
 
 type TrainingsTableProps = {
-	isModuleSelected: boolean
-	isLoading: boolean
-	trainings?: TrainingDTO[]
+	totalTrainings: number
+	selectedModule: string
 }
 
 const TrainingsTable: FC<TrainingsTableProps> = props => {
-	const { isLoading, isModuleSelected, trainings } = props
+	const { totalTrainings, selectedModule } = props
+	const userSession = getUserSession()
+	const isModuleSelected = selectedModule.length !== 0
 	const [selectedTraining, setSelectedTraining] = useState<TrainingDTO>()
 	const columns: CustomTableColumns<TrainingDTO[]> = [
 		{
@@ -73,23 +90,66 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 		},
 	]
 
+	const totalPages = Math.floor(totalTrainings / 10) + 1
+	const pagination = usePagination({
+		initialPage: 1,
+		total: totalPages,
+	})
+
+	const { data: trainings, isLoading: areTrainingsLoading } = useQuery(
+		[
+			'trainings',
+			userSession?.organization,
+			selectedModule,
+			pagination.active.toString(),
+		],
+		({ queryKey }) => {
+			if (!queryKey[1] || !queryKey[2] || !queryKey[3]) return
+
+			return getTrainings({
+				organization: queryKey[1],
+				module: queryKey[2],
+				limit: 10,
+				offset: 10 * (parseInt(queryKey[3]) - 1),
+			})
+		},
+		{
+			enabled: isModuleSelected,
+			refetchOnWindowFocus: false,
+			keepPreviousData: true,
+		}
+	)
+
 	return (
 		<>
 			{isModuleSelected ? (
-				isLoading ? (
-					<Flex
-						justify='center'
-						p='md'
-					>
-						<Loader />
-					</Flex>
-				) : (
-					<CustomTable<TrainingDTO[]>
-						columns={columns}
-						data={trainings}
-						miw={1200}
+				<>
+					<Pagination
+						value={pagination.active}
+						onChange={pagination.setPage}
+						total={totalPages}
+						size='sm'
+						mb='xs'
+						siblings={0}
+						style={{
+							justifyContent: 'flex-end',
+						}}
 					/>
-				)
+					{areTrainingsLoading ? (
+						<Flex
+							justify='center'
+							p='md'
+						>
+							<Loader />
+						</Flex>
+					) : (
+						<CustomTable<TrainingDTO[]>
+							columns={columns}
+							data={trainings}
+							miw={1200}
+						/>
+					)}
+				</>
 			) : (
 				<Text size='sm'>No has realizado ningún filtrado todavía</Text>
 			)}
