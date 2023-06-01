@@ -3,7 +3,8 @@ import { formatDate, getColorForResult, getDifferenceFromDates } from '@/utils'
 import { faFile } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ActionIcon, Badge, Flex, Loader, Text, Tooltip } from '@mantine/core'
-import { FC } from 'react'
+import { FC, useState } from 'react'
+import ExtraInfo from '../ExtraInfo'
 
 type TrainingsTableProps = {
 	isModuleSelected: boolean
@@ -13,6 +14,7 @@ type TrainingsTableProps = {
 
 const TrainingsTable: FC<TrainingsTableProps> = props => {
 	const { isLoading, isModuleSelected, trainings } = props
+	const [selectedTraining, setSelectedTraining] = useState<TrainingDTO>()
 	const columns: CustomTableColumns<TrainingDTO[]> = [
 		{
 			id: 'startDate',
@@ -53,7 +55,7 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 		{
 			id: 'actions',
 			label: 'Acciones',
-			render: () => (
+			render: data => (
 				<Tooltip
 					label='Ver información extra'
 					withArrow
@@ -62,7 +64,7 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 						color='red.6'
 						radius='xl'
 						variant='light'
-						// onClick={() => setSelectedTraining(data)}
+						onClick={() => setSelectedTraining(data)}
 					>
 						<FontAwesomeIcon icon={faFile} />
 					</ActionIcon>
@@ -71,23 +73,28 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 		},
 	]
 
-	return isModuleSelected ? (
-		isLoading ? (
-			<Flex
-				justify='center'
-				p='md'
-			>
-				<Loader />
-			</Flex>
-		) : (
-			<CustomTable<TrainingDTO[]>
-				columns={columns}
-				data={trainings}
-				miw={1200}
-			/>
-		)
-	) : (
-		<Text size='sm'>No has realizado ningún filtrado todavía</Text>
+	return (
+		<>
+			{isModuleSelected ? (
+				isLoading ? (
+					<Flex
+						justify='center'
+						p='md'
+					>
+						<Loader />
+					</Flex>
+				) : (
+					<CustomTable<TrainingDTO[]>
+						columns={columns}
+						data={trainings}
+						miw={1200}
+					/>
+				)
+			) : (
+				<Text size='sm'>No has realizado ningún filtrado todavía</Text>
+			)}
+			{selectedTraining && <ExtraInfo training={selectedTraining} />}
+		</>
 	)
 }
 

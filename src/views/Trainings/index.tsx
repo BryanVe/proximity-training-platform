@@ -1,17 +1,8 @@
-import { constants } from '@/config'
 import { getAvailableModules, getTrainings } from '@/request'
 import { getUserSession } from '@/utils'
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-	Alert,
-	Grid,
-	Loader,
-	Pagination,
-	Select,
-	Text,
-	Title,
-} from '@mantine/core'
+import { Alert, Loader, Pagination, Select, Title } from '@mantine/core'
 import { usePagination } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -76,17 +67,9 @@ const Training = () => {
 		}
 	)
 
-	const [selectedTraining, setSelectedTraining] = useState<TrainingDTO>()
-
 	const selectModule = (value: string) => {
 		pagination.first()
-		setSelectedTraining(undefined)
 		setSelectedModule(value)
-	}
-
-	const setPage = (value: number) => {
-		setSelectedTraining(undefined)
-		pagination.setPage(value)
 	}
 
 	return (
@@ -125,7 +108,7 @@ const Training = () => {
 			{isModuleSelected && (
 				<Pagination
 					value={pagination.active}
-					onChange={setPage}
+					onChange={pagination.setPage}
 					total={totalPages}
 					size='sm'
 					mb='xs'
@@ -136,81 +119,11 @@ const Training = () => {
 				/>
 			)}
 			<TrainingsTable
+				key={selectedModule}
 				isModuleSelected={isModuleSelected}
 				isLoading={isModuleSelected && areTrainingsLoading}
 				trainings={trainings}
 			/>
-			{selectedTraining && (
-				<Grid
-					gutter='xl'
-					mt='md'
-				>
-					<Grid.Col md={6}>
-						<Title
-							color='gray.8'
-							size='h3'
-							mb='md'
-						>
-							{selectedTraining.module === constants.SCOOP_MODULE
-								? constants.SCOOP_MODULE_NAMES.criticalErrors
-								: constants.REGULAR_MODULE_NAMES.criticalErrors}
-						</Title>
-						{selectedTraining.criticalErrors ? (
-							JSON.stringify(selectedTraining.criticalErrors)
-						) : (
-							<Text>No se encontró resultados</Text>
-						)}
-					</Grid.Col>
-					<Grid.Col md={6}>
-						<Title
-							color='gray.8'
-							size='h3'
-							mb='md'
-						>
-							{selectedTraining.module === constants.SCOOP_MODULE
-								? constants.SCOOP_MODULE_NAMES.eppIncorrectamenteTomados
-								: constants.REGULAR_MODULE_NAMES.eppIncorrectamenteTomados}
-						</Title>
-						{selectedTraining.eppIncorrectamenteTomados ? (
-							JSON.stringify(selectedTraining.eppIncorrectamenteTomados)
-						) : (
-							<Text>No se encontró resultados</Text>
-						)}
-					</Grid.Col>
-					<Grid.Col md={6}>
-						<Title
-							color='gray.8'
-							size='h3'
-							mb='md'
-						>
-							{selectedTraining.module === constants.SCOOP_MODULE
-								? constants.SCOOP_MODULE_NAMES.minorErrors
-								: constants.REGULAR_MODULE_NAMES.minorErrors}
-						</Title>
-						{selectedTraining.minorErrors ? (
-							JSON.stringify(selectedTraining.minorErrors)
-						) : (
-							<Text>No se encontró resultados</Text>
-						)}
-					</Grid.Col>
-					<Grid.Col md={6}>
-						<Title
-							color='gray.8'
-							size='h3'
-							mb='md'
-						>
-							{selectedTraining.module === constants.SCOOP_MODULE
-								? constants.SCOOP_MODULE_NAMES.eppNoTomados
-								: constants.REGULAR_MODULE_NAMES.eppNoTomados}
-						</Title>
-						{selectedTraining.eppNoTomados ? (
-							JSON.stringify(selectedTraining.eppNoTomados)
-						) : (
-							<Text>No se encontró resultados</Text>
-						)}
-					</Grid.Col>
-				</Grid>
-			)}
 		</>
 	)
 }
