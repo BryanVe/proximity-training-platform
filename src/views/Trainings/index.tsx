@@ -65,7 +65,7 @@ const Training = () => {
 			<Select
 				disabled={areAvailableModulesLoading}
 				icon={areAvailableModulesLoading ? <Loader size='xs' /> : null}
-				my='sm'
+				my='md'
 				maw={400}
 				label='Selecciona un módulo para realizar el filtrado'
 				placeholder='Módulo'

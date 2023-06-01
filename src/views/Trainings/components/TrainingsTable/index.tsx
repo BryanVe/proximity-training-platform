@@ -34,6 +34,10 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 	const [selectedTraining, setSelectedTraining] = useState<TrainingDTO>()
 	const columns: CustomTableColumns<TrainingDTO[]> = [
 		{
+			id: 'id',
+			label: 'ID',
+		},
+		{
 			id: 'startDate',
 			label: 'Fecha',
 			render: date => <>{formatDate(date.startDate)}</>,

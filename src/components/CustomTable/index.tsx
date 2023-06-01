@@ -48,15 +48,17 @@ function CustomTable<T extends CustomTableDefaultData>(
 					</tbody>
 				</Table>
 			</TableContainer>
-			<Flex
-				justify='center'
-				p='md'
-			>
-				{isLoading && <Loader />}
-				{data && data.length === 0 && (
-					<Text size='sm'>No se encontró resultados</Text>
-				)}
-			</Flex>
+			{(isLoading || (data && data.length === 0)) && (
+				<Flex
+					justify='center'
+					p='md'
+				>
+					{isLoading && <Loader />}
+					{data && data.length === 0 && (
+						<Text size='sm'>No se encontró resultados</Text>
+					)}
+				</Flex>
+			)}
 		</>
 	)
 }
