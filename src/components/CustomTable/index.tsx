@@ -1,8 +1,8 @@
-import { Flex, Loader, Table, TableProps } from '@mantine/core'
+import { Flex, Loader, Table, TableProps, Text } from '@mantine/core'
 import { TableContainer } from './styled.components'
 
 type CustomTableProps<T> = {
-	data: T
+	data?: T
 	columns: CustomTableColumns<T>
 	miw?: TableProps['miw']
 	isLoading?: boolean
@@ -11,7 +11,7 @@ type CustomTableProps<T> = {
 function CustomTable<T extends CustomTableDefaultData>(
 	props: CustomTableProps<T>
 ) {
-	const { columns, data, miw, isLoading } = props
+	const { columns, data, miw, isLoading = false } = props
 
 	return (
 		<>
@@ -30,6 +30,7 @@ function CustomTable<T extends CustomTableDefaultData>(
 					</thead>
 					<tbody>
 						{!isLoading &&
+							data &&
 							data.map(item => (
 								<tr key={item.id}>
 									{columns.map(column => (
@@ -47,14 +48,15 @@ function CustomTable<T extends CustomTableDefaultData>(
 					</tbody>
 				</Table>
 			</TableContainer>
-			{isLoading && (
-				<Flex
-					justify='center'
-					p='md'
-				>
-					<Loader />
-				</Flex>
-			)}
+			<Flex
+				justify='center'
+				p='md'
+			>
+				{isLoading && <Loader />}
+				{data && data.length === 0 && (
+					<Text size='sm'>No se encontró resultados</Text>
+				)}
+			</Flex>
 		</>
 	)
 }

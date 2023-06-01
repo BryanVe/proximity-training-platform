@@ -46,11 +46,11 @@ export const getAvailableModules = async (
 
 export const getTrainings = async (
 	filters: TrainingsFiltersDTO
-): Promise<TrainingsResponse> => {
+): Promise<TrainingDTO[]> => {
 	const response = await axiosInstance.post<TrainingsResponse>(
 		`/training`,
 		filters
 	)
 
-	return response.data
+	return response.data.message
 }

@@ -1,116 +1,62 @@
-import { CustomTable } from '@/components'
 import { constants } from '@/config'
 import { getAvailableModules, getTrainings } from '@/request'
-import { formatDate, getDifferenceFromDates, getUserSession } from '@/utils'
-import { getColorForResult } from '@/utils/results'
-import { faFile } from '@fortawesome/free-solid-svg-icons'
+import { getUserSession } from '@/utils'
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-	ActionIcon,
-	Badge,
+	Alert,
 	Grid,
 	Loader,
 	Pagination,
 	Select,
 	Text,
 	Title,
-	Tooltip,
 } from '@mantine/core'
 import { usePagination } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import { TrainingsTable } from './components'
 
 const Training = () => {
-	const columns: CustomTableColumns<TrainingDTO[]> = [
-		{
-			id: 'startDate',
-			label: 'Fecha',
-			render: date => <>{formatDate(date.startDate)}</>,
-		},
-		{ id: 'organization', label: 'Nombre' },
-		{
-			id: 'dni',
-			label: 'DNI',
-		},
-		{
-			id: 'module',
-			label: 'Módulo',
-		},
-		{
-			id: 'scenario',
-			label: 'Escenario',
-		},
-		{
-			id: 'observations',
-			label: 'Observaciones',
-		},
-		{
-			id: 'result',
-			label: 'Resultado',
-			render: data => (
-				<Badge color={getColorForResult(data.result)}>{data.result}</Badge>
-			),
-		},
-		{
-			id: 'time',
-			label: 'Tiempo',
-			render: data => (
-				<>{getDifferenceFromDates(data.startDate, data.endDate)}</>
-			),
-		},
-		{
-			id: 'actions',
-			label: 'Acciones',
-			render: data => (
-				<Tooltip
-					label='Ver información extra'
-					withArrow
-				>
-					<ActionIcon
-						color='red.6'
-						radius='xl'
-						variant='light'
-						onClick={() => setSelectedTraining(data)}
-					>
-						<FontAwesomeIcon icon={faFile} />
-					</ActionIcon>
-				</Tooltip>
-			),
-		},
-	]
 	const userSession = getUserSession()
-	const { data: availableModules = {}, isLoading: areAvailableModulesLoading } =
-		useQuery(
-			['trainings', userSession?.organization],
-			({ queryKey }) => {
-				if (!queryKey[1]) return
+	const {
+		data: availableModules,
+		isLoading: areAvailableModulesLoading,
+		error: availableModulesError,
+	} = useQuery<
+		Record<string, number> | undefined,
+		ErrorResponse,
+		Record<string, number> | undefined,
+		(string | undefined)[]
+	>(
+		['trainings', userSession?.organization],
+		({ queryKey }) => {
+			if (!queryKey[1]) return
 
-				return getAvailableModules({
-					organization: queryKey[1],
-				})
-			},
-			{
-				refetchOnWindowFocus: false,
-			}
-		)
-	const availableModulesKeys = Object.keys(availableModules)
-	const availableModulesFirstKey = availableModulesKeys[0]
-	const areAvailableModulesKeysEmpty = availableModulesKeys.length === 0
-
+			return getAvailableModules({
+				organization: queryKey[1],
+			})
+		},
+		{
+			refetchOnWindowFocus: false,
+		}
+	)
 	const [selectedModule, setSelectedModule] = useState('')
-	const _selectedModule = selectedModule || availableModulesFirstKey
-	const totalTrainings = availableModules[_selectedModule] || 0
+	const isModuleSelected = selectedModule.length !== 0
+	const availableModulesNames = Object.keys(availableModules || {})
+	const totalTrainings =
+		availableModules && isModuleSelected ? availableModules[selectedModule] : 0
 	const totalPages = Math.floor(totalTrainings / 10) + 1
 	const pagination = usePagination({
 		initialPage: 1,
-		total: totalTrainings,
+		total: totalPages,
 	})
 
 	const { data: trainings, isLoading: areTrainingsLoading } = useQuery(
 		[
 			'trainings',
 			userSession?.organization,
-			_selectedModule,
+			selectedModule,
 			pagination.active.toString(),
 		],
 		({ queryKey }) => {
@@ -124,7 +70,7 @@ const Training = () => {
 			})
 		},
 		{
-			enabled: !areAvailableModulesKeysEmpty,
+			enabled: isModuleSelected,
 			refetchOnWindowFocus: false,
 			keepPreviousData: true,
 		}
@@ -145,6 +91,25 @@ const Training = () => {
 
 	return (
 		<>
+			{availableModulesError && (
+				<Alert
+					mb='md'
+					styles={{
+						icon: {
+							width: 'auto',
+							height: 'auto',
+							marginTop: 0,
+						},
+						title: {
+							marginBottom: 0,
+						},
+					}}
+					icon={<FontAwesomeIcon icon={faTriangleExclamation} />}
+					title='Error al obtener los módulos disponibles'
+				>
+					{availableModulesError?.response?.data.message}
+				</Alert>
+			)}
 			<Title color='gray.8'>Entrenamientos</Title>
 			<Select
 				disabled={areAvailableModulesLoading}
@@ -153,26 +118,27 @@ const Training = () => {
 				maw={400}
 				label='Selecciona un módulo para realizar el filtrado'
 				placeholder='Módulo'
-				data={availableModulesKeys || []}
-				value={_selectedModule}
+				data={availableModulesNames || []}
+				value={selectedModule}
 				onChange={selectModule}
 			/>
-			<Pagination
-				value={pagination.active}
-				onChange={setPage}
-				total={totalPages}
-				size='sm'
-				mb='xs'
-				siblings={0}
-				style={{
-					justifyContent: 'flex-end',
-				}}
-			/>
-			<CustomTable<TrainingDTO[]>
-				isLoading={!areAvailableModulesKeysEmpty && areTrainingsLoading}
-				columns={columns}
-				data={trainings?.message || []}
-				miw={1200}
+			{isModuleSelected && (
+				<Pagination
+					value={pagination.active}
+					onChange={setPage}
+					total={totalPages}
+					size='sm'
+					mb='xs'
+					siblings={0}
+					style={{
+						justifyContent: 'flex-end',
+					}}
+				/>
+			)}
+			<TrainingsTable
+				isModuleSelected={isModuleSelected}
+				isLoading={isModuleSelected && areTrainingsLoading}
+				trainings={trainings}
 			/>
 			{selectedTraining && (
 				<Grid
