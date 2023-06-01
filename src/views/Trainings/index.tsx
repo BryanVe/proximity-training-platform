@@ -9,6 +9,7 @@ import {
 	ActionIcon,
 	Badge,
 	Grid,
+	Loader,
 	Pagination,
 	Select,
 	Text,
@@ -66,7 +67,7 @@ const Training = () => {
 					withArrow
 				>
 					<ActionIcon
-						color='cyan.6'
+						color='red.6'
 						radius='xl'
 						variant='light'
 						onClick={() => setSelectedTraining(data)}
@@ -78,35 +79,38 @@ const Training = () => {
 		},
 	]
 	const userSession = getUserSession()
-	const { data: availableModules = {} } = useQuery(
-		['trainings', userSession?.organization],
-		({ queryKey }) => {
-			if (!queryKey[1]) return
+	const { data: availableModules = {}, isLoading: areAvailableModulesLoading } =
+		useQuery(
+			['trainings', userSession?.organization],
+			({ queryKey }) => {
+				if (!queryKey[1]) return
 
-			return getAvailableModules({
-				organization: queryKey[1],
-			})
-		},
-		{
-			refetchOnWindowFocus: false,
-		}
-	)
+				return getAvailableModules({
+					organization: queryKey[1],
+				})
+			},
+			{
+				refetchOnWindowFocus: false,
+			}
+		)
+	const availableModulesKeys = Object.keys(availableModules)
+	const availableModulesFirstKey = availableModulesKeys[0]
+	const areAvailableModulesKeysEmpty = availableModulesKeys.length === 0
 
-	const [selectedModule, setSelectedModule] = useState<string | null>()
-	const selectedTrainingModule =
-		selectedModule || Object.keys(availableModules)[0] || ''
-	const availableModulesQuantity = availableModules[selectedTrainingModule] || 0
-	const totalPages = Math.floor(availableModulesQuantity / 10) + 1
+	const [selectedModule, setSelectedModule] = useState('')
+	const _selectedModule = selectedModule || availableModulesFirstKey
+	const totalTrainings = availableModules[_selectedModule] || 0
+	const totalPages = Math.floor(totalTrainings / 10) + 1
 	const pagination = usePagination({
 		initialPage: 1,
-		total: availableModulesQuantity,
+		total: totalTrainings,
 	})
 
-	const { data: trainings } = useQuery(
+	const { data: trainings, isLoading: areTrainingsLoading } = useQuery(
 		[
 			'trainings',
 			userSession?.organization,
-			selectedTrainingModule,
+			_selectedModule,
 			pagination.active.toString(),
 		],
 		({ queryKey }) => {
@@ -120,14 +124,15 @@ const Training = () => {
 			})
 		},
 		{
-			enabled: Boolean(Object.keys(availableModules)[0]),
+			enabled: !areAvailableModulesKeysEmpty,
 			refetchOnWindowFocus: false,
+			keepPreviousData: true,
 		}
 	)
 
 	const [selectedTraining, setSelectedTraining] = useState<TrainingDTO>()
 
-	const selectModule = (value: string | null) => {
+	const selectModule = (value: string) => {
 		pagination.first()
 		setSelectedTraining(undefined)
 		setSelectedModule(value)
@@ -142,29 +147,32 @@ const Training = () => {
 		<>
 			<Title color='gray.8'>Entrenamientos</Title>
 			<Select
+				disabled={areAvailableModulesLoading}
+				icon={areAvailableModulesLoading ? <Loader size='xs' /> : null}
 				my='md'
-				maw={300}
+				maw={400}
 				label='Selecciona un módulo para realizar el filtrado'
 				placeholder='Módulo'
-				data={Object.keys(availableModules) || []}
-				value={selectedTrainingModule}
+				data={availableModulesKeys || []}
+				value={_selectedModule}
 				onChange={selectModule}
-			/>
-			<CustomTable<TrainingDTO[]>
-				columns={columns}
-				data={trainings?.message || []}
-				miw={1200}
 			/>
 			<Pagination
 				value={pagination.active}
 				onChange={setPage}
 				total={totalPages}
-				mt='sm'
 				size='sm'
+				mb='xs'
 				siblings={0}
 				style={{
 					justifyContent: 'flex-end',
 				}}
+			/>
+			<CustomTable<TrainingDTO[]>
+				isLoading={!areAvailableModulesKeysEmpty && areTrainingsLoading}
+				columns={columns}
+				data={trainings?.message || []}
+				miw={1200}
 			/>
 			{selectedTraining && (
 				<Grid
