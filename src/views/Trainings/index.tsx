@@ -9,11 +9,13 @@ import {
 	ActionIcon,
 	Badge,
 	Grid,
+	Pagination,
 	Select,
 	Text,
 	Title,
 	Tooltip,
 } from '@mantine/core'
+import { usePagination } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
@@ -76,7 +78,7 @@ const Training = () => {
 		},
 	]
 	const userSession = getUserSession()
-	const { data: availableModules } = useQuery(
+	const { data: availableModules = {} } = useQuery(
 		['trainings', userSession?.organization],
 		({ queryKey }) => {
 			if (!queryKey[1]) return
@@ -91,26 +93,34 @@ const Training = () => {
 	)
 
 	const [selectedModule, setSelectedModule] = useState<string | null>()
-	const selectedTrainingModule = selectedModule
-		? selectedModule
-		: availableModules
-		? Object.keys(availableModules.message)[0]
-		: ''
+	const selectedTrainingModule =
+		selectedModule || Object.keys(availableModules)[0] || ''
+	const availableModulesQuantity = availableModules[selectedTrainingModule] || 0
+	const totalPages = Math.floor(availableModulesQuantity / 10) + 1
+	const pagination = usePagination({
+		initialPage: 1,
+		total: availableModulesQuantity,
+	})
 
 	const { data: trainings } = useQuery(
-		['trainings', userSession?.organization, selectedTrainingModule],
+		[
+			'trainings',
+			userSession?.organization,
+			selectedTrainingModule,
+			pagination.active.toString(),
+		],
 		({ queryKey }) => {
-			if (!queryKey[1] || !queryKey[2]) return
+			if (!queryKey[1] || !queryKey[2] || !queryKey[3]) return
 
 			return getTrainings({
 				organization: queryKey[1],
 				module: queryKey[2],
 				limit: 10,
-				offset: 0,
+				offset: 10 * (parseInt(queryKey[3]) - 1),
 			})
 		},
 		{
-			enabled: Boolean(availableModules),
+			enabled: Boolean(Object.keys(availableModules)[0]),
 			refetchOnWindowFocus: false,
 		}
 	)
@@ -118,8 +128,14 @@ const Training = () => {
 	const [selectedTraining, setSelectedTraining] = useState<TrainingDTO>()
 
 	const selectModule = (value: string | null) => {
+		pagination.first()
 		setSelectedTraining(undefined)
 		setSelectedModule(value)
+	}
+
+	const setPage = (value: number) => {
+		setSelectedTraining(undefined)
+		pagination.setPage(value)
 	}
 
 	return (
@@ -130,22 +146,25 @@ const Training = () => {
 				maw={300}
 				label='Selecciona un módulo para realizar el filtrado'
 				placeholder='Módulo'
-				data={availableModules ? Object.keys(availableModules.message) : []}
+				data={Object.keys(availableModules) || []}
 				value={selectedTrainingModule}
 				onChange={selectModule}
 			/>
-			{selectedTrainingModule && availableModules && (
-				<Text size='sm'>
-					{availableModules.message[selectedTrainingModule]}{' '}
-					{availableModules.message[selectedTrainingModule] > 1
-						? 'resultados'
-						: 'resultado'}
-				</Text>
-			)}
 			<CustomTable<TrainingDTO[]>
 				columns={columns}
 				data={trainings?.message || []}
 				miw={1200}
+			/>
+			<Pagination
+				value={pagination.active}
+				onChange={setPage}
+				total={totalPages}
+				mt='sm'
+				size='sm'
+				siblings={0}
+				style={{
+					justifyContent: 'flex-end',
+				}}
 			/>
 			{selectedTraining && (
 				<Grid
