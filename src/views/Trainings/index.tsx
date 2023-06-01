@@ -9,6 +9,7 @@ import {
 	ActionIcon,
 	Badge,
 	Grid,
+	Loader,
 	Pagination,
 	Select,
 	Text,
@@ -66,7 +67,7 @@ const Training = () => {
 					withArrow
 				>
 					<ActionIcon
-						color='cyan.6'
+						color='pink.4'
 						radius='xl'
 						variant='light'
 						onClick={() => setSelectedTraining(data)}
@@ -78,31 +79,33 @@ const Training = () => {
 		},
 	]
 	const userSession = getUserSession()
-	const { data: availableModules = {} } = useQuery(
-		['trainings', userSession?.organization],
-		({ queryKey }) => {
-			if (!queryKey[1]) return
+	const { data: availableModules, isLoading: areAvailableModulesLoading } =
+		useQuery(
+			['trainings', userSession?.organization],
+			({ queryKey }) => {
+				if (!queryKey[1]) return
 
-			return getAvailableModules({
-				organization: queryKey[1],
-			})
-		},
-		{
-			refetchOnWindowFocus: false,
-		}
-	)
+				return getAvailableModules({
+					organization: queryKey[1],
+				})
+			},
+			{
+				refetchOnWindowFocus: false,
+			}
+		)
 
-	const [selectedModule, setSelectedModule] = useState<string | null>()
+	const [selectedModule, setSelectedModule] = useState<string>('')
 	const selectedTrainingModule =
-		selectedModule || Object.keys(availableModules)[0] || ''
-	const availableModulesQuantity = availableModules[selectedTrainingModule] || 0
+		selectedModule || Object.keys(availableModules || {})[0]
+	const availableModulesQuantity =
+		(availableModules || {})[selectedTrainingModule] || 0
 	const totalPages = Math.floor(availableModulesQuantity / 10) + 1
 	const pagination = usePagination({
 		initialPage: 1,
 		total: availableModulesQuantity,
 	})
 
-	const { data: trainings } = useQuery(
+	const { data: trainings, isLoading: areTrainingsLoading } = useQuery(
 		[
 			'trainings',
 			userSession?.organization,
@@ -120,14 +123,14 @@ const Training = () => {
 			})
 		},
 		{
-			enabled: Boolean(Object.keys(availableModules)[0]),
+			enabled: Boolean(availableModules),
 			refetchOnWindowFocus: false,
 		}
 	)
 
 	const [selectedTraining, setSelectedTraining] = useState<TrainingDTO>()
 
-	const selectModule = (value: string | null) => {
+	const selectModule = (value: string) => {
 		pagination.first()
 		setSelectedTraining(undefined)
 		setSelectedModule(value)
@@ -142,15 +145,18 @@ const Training = () => {
 		<>
 			<Title color='gray.8'>Entrenamientos</Title>
 			<Select
+				disabled={areAvailableModulesLoading}
+				icon={areAvailableModulesLoading ? <Loader size='xs' /> : null}
 				my='md'
-				maw={300}
+				maw={400}
 				label='Selecciona un módulo para realizar el filtrado'
 				placeholder='Módulo'
-				data={Object.keys(availableModules) || []}
+				data={Object.keys(availableModules || {}) || []}
 				value={selectedTrainingModule}
 				onChange={selectModule}
 			/>
 			<CustomTable<TrainingDTO[]>
+				isLoading={areTrainingsLoading}
 				columns={columns}
 				data={trainings?.message || []}
 				miw={1200}
