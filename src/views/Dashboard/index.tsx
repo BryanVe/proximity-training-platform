@@ -1,15 +1,11 @@
 import { CustomTable } from '@/components'
 import { constants } from '@/config'
-import {
-	getLastTrainingsRequest,
-	getMostCommonResultsRequest,
-	getMostUsedModulesRequest,
-} from '@/request'
+import { getLastTrainingsRequest, getMostCommonResultsRequest } from '@/request'
 import { formatDate, getUserSession } from '@/utils'
 import { getColorForResult } from '@/utils/results'
 import { Badge, Grid, Text, Title, useMantineTheme } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
-import { DashboardBar, DashboardDoughnut } from './components'
+import { DashboardBar, DashboardDoughnut, MostUsedModules } from './components'
 
 const columns: CustomTableColumns<LastTrainingDTO[]> = [
 	{
@@ -34,20 +30,6 @@ const columns: CustomTableColumns<LastTrainingDTO[]> = [
 const Dashboard = () => {
 	const userSession = getUserSession()
 	const theme = useMantineTheme()
-	const { data: mostUsedModules } = useQuery(
-		['mostUsedModules', userSession?.organization],
-		({ queryKey }) => {
-			if (!queryKey[1]) return
-
-			return getMostUsedModulesRequest({
-				organization: queryKey[1],
-				limit: constants.MAX_CHART_RESULTS,
-			})
-		},
-		{
-			refetchOnWindowFocus: false,
-		}
-	)
 	const { data: mostCommonResults } = useQuery(
 		['mostCommonResults', userSession?.organization],
 		({ queryKey }) => {
@@ -76,20 +58,6 @@ const Dashboard = () => {
 			refetchOnWindowFocus: false,
 		}
 	)
-
-	const mostUsedModulesData: DoughnutProps['data'] = {
-		labels: mostUsedModules ? Object.keys(mostUsedModules.message) : [],
-		datasets: [
-			{
-				data: mostUsedModules ? Object.values(mostUsedModules.message) : [],
-				backgroundColor: mostUsedModules
-					? Object.keys(mostUsedModules.message).map((_, index) =>
-							theme.fn.lighten(theme.colors.pink[5], 0.1 * index)
-					  )
-					: [],
-			},
-		],
-	}
 
 	const mostCommonResultsData: DoughnutProps['data'] = {
 		labels: mostCommonResults ? Object.keys(mostCommonResults.message) : [],
@@ -136,12 +104,7 @@ const Dashboard = () => {
 			</Text>
 			<Grid gutter='xl'>
 				<Grid.Col md={6}>
-					<DashboardDoughnut
-						title='Módulos Más Utilizados'
-						data={mostUsedModulesData}
-						cutout='60%'
-						dataLabelColor={theme.white}
-					/>
+					<MostUsedModules />
 				</Grid.Col>
 				<Grid.Col md={6}>
 					<DashboardDoughnut
