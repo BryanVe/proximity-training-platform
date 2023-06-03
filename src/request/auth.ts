@@ -2,8 +2,8 @@ import { axiosInstance } from '.'
 
 export const authRequest = async (
 	credentials: CredentialsDTO
-): Promise<AuthResponse> => {
+): Promise<UserDTO> => {
 	const response = await axiosInstance.post<AuthResponse>(`/auth`, credentials)
 
-	return response.data
+	return response.data.message
 }

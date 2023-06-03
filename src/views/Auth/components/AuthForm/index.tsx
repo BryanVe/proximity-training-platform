@@ -61,13 +61,13 @@ const AuthForm = () => {
 		},
 	})
 	const { mutate: auth, isLoading: isAuthLoading } = useMutation<
-		AuthResponse,
+		UserDTO,
 		ErrorResponse,
 		CredentialsDTO
 	>(authRequest, {
 		onSuccess: data => {
-			const { organization } = data.message
-			setUserSession(data.message)
+			const { organization } = data
+			setUserSession(data)
 
 			notifications.success(
 				'Inició sesión correctamente',
