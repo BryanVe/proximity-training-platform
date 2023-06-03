@@ -51,20 +51,11 @@ const MostUsedModules = () => {
 		],
 	}
 
-	return areMostUsedModulesLoading ? (
-		<FeedbackMessage
-			isLoading
-			message='Cargando los módulos más utilizados...'
-		/>
-	) : mostUsedModulesError ? (
-		<FeedbackMessage
-			icon={faTriangleExclamation}
-			message={`Ocurrió el siguiente error: ${mostUsedModulesError.response?.data.message}`}
-		/>
-	) : Object.keys(mostUsedModules || {}).length > 0 ? (
+	return (
 		<Flex
 			direction='column'
 			gap='md'
+			h='100%'
 		>
 			<Title
 				color='gray.8'
@@ -72,17 +63,29 @@ const MostUsedModules = () => {
 			>
 				Módulos Más Utilizados
 			</Title>
-			<DashboardDoughnut
-				data={mostUsedModulesData}
-				cutout='60%'
-				dataLabelColor={theme.white}
-			/>
+			{areMostUsedModulesLoading ? (
+				<FeedbackMessage
+					isLoading
+					message='Cargando los módulos más utilizados...'
+				/>
+			) : mostUsedModulesError ? (
+				<FeedbackMessage
+					icon={faTriangleExclamation}
+					message={`Ocurrió el siguiente error: ${mostUsedModulesError.response?.data.message}`}
+				/>
+			) : Object.keys(mostUsedModules || {}).length > 0 ? (
+				<DashboardDoughnut
+					data={mostUsedModulesData}
+					cutout='60%'
+					dataLabelColor={theme.white}
+				/>
+			) : (
+				<FeedbackMessage
+					icon={faCircleInfo}
+					message='No se encontró ningún módulo'
+				/>
+			)}
 		</Flex>
-	) : (
-		<FeedbackMessage
-			icon={faCircleInfo}
-			message='No se encontró ningún módulo'
-		/>
 	)
 }
 

@@ -51,20 +51,11 @@ const MostCommonResults = () => {
 		],
 	}
 
-	return areMostCommonResultsLoading ? (
-		<FeedbackMessage
-			isLoading
-			message='Cargando los resultados más comunes...'
-		/>
-	) : mostCommonResultsError ? (
-		<FeedbackMessage
-			icon={faTriangleExclamation}
-			message={`Ocurrió el siguiente error: ${mostCommonResultsError.response?.data.message}`}
-		/>
-	) : Object.keys(mostCommonResults || {}).length > 0 ? (
+	return (
 		<Flex
 			direction='column'
 			gap='md'
+			h='100%'
 		>
 			<Title
 				color='gray.8'
@@ -72,18 +63,30 @@ const MostCommonResults = () => {
 			>
 				Resultados Más Comunes
 			</Title>
-			<DashboardDoughnut
-				isPercentage
-				data={mostCommonResultsData}
-				cutout='40%'
-				dataLabelColor={theme.colors.gray[8]}
-			/>
+			{areMostCommonResultsLoading ? (
+				<FeedbackMessage
+					isLoading
+					message='Cargando los resultados más comunes...'
+				/>
+			) : mostCommonResultsError ? (
+				<FeedbackMessage
+					icon={faTriangleExclamation}
+					message={`Ocurrió el siguiente error: ${mostCommonResultsError.response?.data.message}`}
+				/>
+			) : Object.keys(mostCommonResults || {}).length > 0 ? (
+				<DashboardDoughnut
+					isPercentage
+					data={mostCommonResultsData}
+					cutout='40%'
+					dataLabelColor={theme.colors.gray[8]}
+				/>
+			) : (
+				<FeedbackMessage
+					icon={faCircleInfo}
+					message='No se encontró ningún resultado'
+				/>
+			)}
 		</Flex>
-	) : (
-		<FeedbackMessage
-			icon={faCircleInfo}
-			message='No se encontró ningún resultado'
-		/>
 	)
 }
 
