@@ -1,4 +1,6 @@
-import { Flex, Loader, Table, TableProps, Text } from '@mantine/core'
+import FeedbackMessage from '@/views/Dashboard/components/FeedbackMessage'
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import { Table, TableProps, Text } from '@mantine/core'
 import { TableContainer } from './styled.components'
 
 type CustomTableProps<T> = {
@@ -6,12 +8,13 @@ type CustomTableProps<T> = {
 	columns: CustomTableColumns<T>
 	miw?: TableProps['miw']
 	isLoading?: boolean
+	error?: string
 }
 
 function CustomTable<T extends CustomTableDefaultData>(
 	props: CustomTableProps<T>
 ) {
-	const { columns, data, miw, isLoading = false } = props
+	const { columns, data, miw, isLoading = false, error } = props
 
 	return (
 		<>
@@ -48,17 +51,19 @@ function CustomTable<T extends CustomTableDefaultData>(
 					</tbody>
 				</Table>
 			</TableContainer>
-			{(isLoading || (data && data.length === 0)) && (
-				<Flex
-					justify='center'
-					p='md'
-				>
-					{isLoading && <Loader />}
-					{data && data.length === 0 && (
-						<Text size='sm'>No se encontró resultados</Text>
-					)}
-				</Flex>
+			{isLoading && (
+				<FeedbackMessage
+					isLoading
+					message='Cargando...'
+				/>
 			)}
+			{data && data.length === 0 && (
+				<FeedbackMessage
+					icon={faCircleInfo}
+					message='No se encontró ningún resultado'
+				/>
+			)}
+			{error && <Text size='sm'>Ocurrió el siguiente error: {error}</Text>}
 		</>
 	)
 }
