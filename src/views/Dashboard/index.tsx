@@ -1,11 +1,11 @@
 import { CustomTable } from '@/components'
 import { constants } from '@/config'
-import { getLastTrainingsRequest, getMostCommonResultsRequest } from '@/request'
+import { getLastTrainingsRequest } from '@/request'
 import { formatDate, getUserSession } from '@/utils'
 import { getColorForResult } from '@/utils/results'
 import { Badge, Grid, Text, Title, useMantineTheme } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
-import { DashboardBar, DashboardDoughnut, MostUsedModules } from './components'
+import { DashboardBar, MostCommonResults, MostUsedModules } from './components'
 
 const columns: CustomTableColumns<LastTrainingDTO[]> = [
 	{
@@ -30,20 +30,7 @@ const columns: CustomTableColumns<LastTrainingDTO[]> = [
 const Dashboard = () => {
 	const userSession = getUserSession()
 	const theme = useMantineTheme()
-	const { data: mostCommonResults } = useQuery(
-		['mostCommonResults', userSession?.organization],
-		({ queryKey }) => {
-			if (!queryKey[1]) return
 
-			return getMostCommonResultsRequest({
-				organization: queryKey[1],
-				limit: constants.MAX_CHART_RESULTS,
-			})
-		},
-		{
-			refetchOnWindowFocus: false,
-		}
-	)
 	const { data: lastTrainings } = useQuery(
 		['lastTrainings', userSession?.organization],
 		({ queryKey }) => {
@@ -58,20 +45,6 @@ const Dashboard = () => {
 			refetchOnWindowFocus: false,
 		}
 	)
-
-	const mostCommonResultsData: DoughnutProps['data'] = {
-		labels: mostCommonResults ? Object.keys(mostCommonResults.message) : [],
-		datasets: [
-			{
-				data: mostCommonResults ? Object.values(mostCommonResults.message) : [],
-				backgroundColor: mostCommonResults
-					? Object.keys(mostCommonResults.message).map((_, index) =>
-							theme.fn.lighten(theme.colors.yellow[6], 0.1 * index)
-					  )
-					: [],
-			},
-		],
-	}
 
 	const mockedData3: BarProps['data'] = {
 		labels: ['A', 'B', 'C'],
@@ -107,13 +80,7 @@ const Dashboard = () => {
 					<MostUsedModules />
 				</Grid.Col>
 				<Grid.Col md={6}>
-					<DashboardDoughnut
-						isPercentage
-						title='Resultados Más Comunes'
-						data={mostCommonResultsData}
-						cutout='40%'
-						dataLabelColor={theme.colors.gray[8]}
-					/>
+					<MostCommonResults />
 				</Grid.Col>
 				<Grid.Col md={6}>
 					<Title
