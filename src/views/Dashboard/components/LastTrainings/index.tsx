@@ -69,6 +69,7 @@ const LastTrainings = () => {
 				data={lastTrainings}
 				miw={700}
 				error={lastTrainingsError?.response?.data.message}
+				loadingMessage='Cargando los últimos entrenamientos...'
 			/>
 		</Flex>
 	)

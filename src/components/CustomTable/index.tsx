@@ -12,12 +12,20 @@ type CustomTableProps<T> = {
 	miw?: TableProps['miw']
 	isLoading?: boolean
 	error?: string
+	loadingMessage?: string
 }
 
 function CustomTable<T extends CustomTableDefaultData>(
 	props: CustomTableProps<T>
 ) {
-	const { columns, data, miw, isLoading = false, error } = props
+	const {
+		columns,
+		data,
+		miw,
+		isLoading = false,
+		error,
+		loadingMessage = 'Cargando...',
+	} = props
 
 	return (
 		<>
@@ -57,7 +65,7 @@ function CustomTable<T extends CustomTableDefaultData>(
 			{isLoading ? (
 				<FeedbackMessage
 					isLoading
-					message='Cargando...'
+					message={loadingMessage}
 				/>
 			) : error ? (
 				<FeedbackMessage
