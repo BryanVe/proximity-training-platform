@@ -66,16 +66,19 @@ function CustomTable<T extends CustomTableDefaultData>(
 				<FeedbackMessage
 					isLoading
 					message={loadingMessage}
+					fullHeight={false}
 				/>
 			) : error ? (
 				<FeedbackMessage
 					icon={faTriangleExclamation}
 					message={`Ocurrió el siguiente error: ${error}`}
+					fullHeight={false}
 				/>
 			) : data?.length === 0 ? (
 				<FeedbackMessage
 					icon={faCircleInfo}
 					message='No se encontró ningún resultado'
+					fullHeight={false}
 				/>
 			) : null}
 		</>

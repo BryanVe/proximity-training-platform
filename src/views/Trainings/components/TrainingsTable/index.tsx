@@ -8,15 +8,7 @@ import {
 } from '@/utils'
 import { faFile } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-	ActionIcon,
-	Badge,
-	Flex,
-	Loader,
-	Pagination,
-	Text,
-	Tooltip,
-} from '@mantine/core'
+import { ActionIcon, Badge, Pagination, Text, Tooltip } from '@mantine/core'
 import { usePagination } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { FC, useState } from 'react'
@@ -100,7 +92,16 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 		total: totalPages,
 	})
 
-	const { data: trainings, isLoading: areTrainingsLoading } = useQuery(
+	const {
+		data: trainings,
+		isLoading: areTrainingsLoading,
+		error: trainingsError,
+	} = useQuery<
+		TrainingDTO[] | undefined,
+		ErrorResponse,
+		TrainingDTO[] | undefined,
+		(string | undefined)[]
+	>(
 		[
 			'trainings',
 			userSession?.organization,
@@ -139,20 +140,14 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 							justifyContent: 'flex-end',
 						}}
 					/>
-					{areTrainingsLoading ? (
-						<Flex
-							justify='center'
-							p='md'
-						>
-							<Loader />
-						</Flex>
-					) : (
-						<CustomTable<TrainingDTO[]>
-							columns={columns}
-							data={trainings}
-							miw={1200}
-						/>
-					)}
+					<CustomTable<TrainingDTO[]>
+						isLoading={areTrainingsLoading}
+						error={trainingsError?.response?.data.message}
+						columns={columns}
+						data={trainings}
+						miw={1200}
+						loadingMessage='Cargando entrenamientos...'
+					/>
 				</>
 			) : (
 				<Text size='sm'>No has realizado ningún filtrado todavía</Text>

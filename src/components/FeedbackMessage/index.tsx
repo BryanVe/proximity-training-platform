@@ -9,20 +9,23 @@ type FeedbackMessageProps = {
 	isLoading?: boolean
 	message: string
 	icon?: FontAwesomeIconProps['icon']
+	fullHeight?: boolean
 }
 
 const FeedbackMessage: FC<FeedbackMessageProps> = props => {
-	const { icon, isLoading, message } = props
+	const { icon, isLoading, message, fullHeight = true } = props
 	const theme = useMantineTheme()
 
 	return (
 		<Flex
-			h='100%'
 			justify='center'
 			align='center'
 			direction='column'
 			gap='xs'
 			p='xl'
+			{...(fullHeight && {
+				h: '100%',
+			})}
 		>
 			{!isLoading && icon ? (
 				<FontAwesomeIcon
