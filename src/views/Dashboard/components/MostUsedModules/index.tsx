@@ -1,3 +1,4 @@
+import { FeedbackMessage } from '@/components'
 import { constants } from '@/config'
 import { getMostUsedModulesRequest } from '@/request'
 import { getUserSession } from '@/utils'
@@ -8,7 +9,6 @@ import {
 import { Flex, Title, useMantineTheme } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import DashboardDoughnut from '../DashboardDoughnut'
-import FeedbackMessage from '../FeedbackMessage'
 
 const MostUsedModules = () => {
 	const userSession = getUserSession()

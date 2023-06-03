@@ -1,6 +1,9 @@
-import FeedbackMessage from '@/views/Dashboard/components/FeedbackMessage'
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
-import { Table, TableProps, Text } from '@mantine/core'
+import {
+	faCircleInfo,
+	faTriangleExclamation,
+} from '@fortawesome/free-solid-svg-icons'
+import { Table, TableProps } from '@mantine/core'
+import FeedbackMessage from '../FeedbackMessage'
 import { TableContainer } from './styled.components'
 
 type CustomTableProps<T> = {
@@ -51,19 +54,22 @@ function CustomTable<T extends CustomTableDefaultData>(
 					</tbody>
 				</Table>
 			</TableContainer>
-			{isLoading && (
+			{isLoading ? (
 				<FeedbackMessage
 					isLoading
 					message='Cargando...'
 				/>
-			)}
-			{data && data.length === 0 && (
+			) : error ? (
+				<FeedbackMessage
+					icon={faTriangleExclamation}
+					message={`Ocurrió el siguiente error: ${error}`}
+				/>
+			) : data?.length === 0 ? (
 				<FeedbackMessage
 					icon={faCircleInfo}
 					message='No se encontró ningún resultado'
 				/>
-			)}
-			{error && <Text size='sm'>Ocurrió el siguiente error: {error}</Text>}
+			) : null}
 		</>
 	)
 }
