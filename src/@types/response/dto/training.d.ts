@@ -8,10 +8,10 @@ type TrainingDTO = {
 	scenario?: string
 	modality?: string
 	result?: string
-	criticalErrors?: string
-	minorErrors?: string
-	eppNoTomados?: string
-	eppIncorrectamenteTomados?: string
+	criticalErrors: string[]
+	minorErrors: string[]
+	eppNoTomados: string[]
+	eppIncorrectamenteTomados: string[]
 	deleted: number
 }
 

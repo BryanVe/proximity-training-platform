@@ -1,5 +1,5 @@
 import { constants } from '@/config'
-import { Divider, Grid, Text, Title } from '@mantine/core'
+import { Divider, Grid, List, Text, Title } from '@mantine/core'
 import { FC } from 'react'
 
 type ExtraInfoProps = {
@@ -30,8 +30,12 @@ const ExtraInfo: FC<ExtraInfoProps> = props => {
 							? constants.SCOOP_MODULE_NAMES.criticalErrors
 							: constants.REGULAR_MODULE_NAMES.criticalErrors}
 					</Title>
-					{training.criticalErrors ? (
-						JSON.stringify(training.criticalErrors)
+					{training.criticalErrors.length > 0 ? (
+						<List withPadding>
+							{training.criticalErrors.map(e => (
+								<List.Item>{e}</List.Item>
+							))}
+						</List>
 					) : (
 						<Text>No se encontró resultados</Text>
 					)}
@@ -46,8 +50,12 @@ const ExtraInfo: FC<ExtraInfoProps> = props => {
 							? constants.SCOOP_MODULE_NAMES.eppIncorrectamenteTomados
 							: constants.REGULAR_MODULE_NAMES.eppIncorrectamenteTomados}
 					</Title>
-					{training.eppIncorrectamenteTomados ? (
-						JSON.stringify(training.eppIncorrectamenteTomados)
+					{training.eppIncorrectamenteTomados.length > 0 ? (
+						<List withPadding>
+							{training.eppIncorrectamenteTomados.map(e => (
+								<List.Item>{e}</List.Item>
+							))}
+						</List>
 					) : (
 						<Text>No se encontró resultados</Text>
 					)}
@@ -62,8 +70,12 @@ const ExtraInfo: FC<ExtraInfoProps> = props => {
 							? constants.SCOOP_MODULE_NAMES.minorErrors
 							: constants.REGULAR_MODULE_NAMES.minorErrors}
 					</Title>
-					{training.minorErrors ? (
-						JSON.stringify(training.minorErrors)
+					{training.minorErrors.length > 0 ? (
+						<List withPadding>
+							{training.minorErrors.map(e => (
+								<List.Item>{e}</List.Item>
+							))}
+						</List>
 					) : (
 						<Text>No se encontró resultados</Text>
 					)}
@@ -78,8 +90,12 @@ const ExtraInfo: FC<ExtraInfoProps> = props => {
 							? constants.SCOOP_MODULE_NAMES.eppNoTomados
 							: constants.REGULAR_MODULE_NAMES.eppNoTomados}
 					</Title>
-					{training.eppNoTomados ? (
-						JSON.stringify(training.eppNoTomados)
+					{training.eppNoTomados.length > 0 ? (
+						<List withPadding>
+							{training.eppNoTomados.map(e => (
+								<List.Item>{e}</List.Item>
+							))}
+						</List>
 					) : (
 						<Text>No se encontró resultados</Text>
 					)}
