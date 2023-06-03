@@ -5,7 +5,7 @@ import {
 	faCircleInfo,
 	faTriangleExclamation,
 } from '@fortawesome/free-solid-svg-icons'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, Title, useMantineTheme } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import DashboardDoughnut from '../DashboardDoughnut'
 import FeedbackMessage from '../FeedbackMessage'
@@ -62,13 +62,23 @@ const MostCommonResults = () => {
 			message={`Ocurrió el siguiente error: ${mostCommonResultsError.response?.data.message}`}
 		/>
 	) : Object.keys(mostCommonResults || {}).length > 0 ? (
-		<DashboardDoughnut
-			isPercentage
-			title='Resultados Más Comunes'
-			data={mostCommonResultsData}
-			cutout='40%'
-			dataLabelColor={theme.colors.gray[8]}
-		/>
+		<Flex
+			direction='column'
+			gap='md'
+		>
+			<Title
+				color='gray.8'
+				size='h3'
+			>
+				Resultados Más Comunes
+			</Title>
+			<DashboardDoughnut
+				isPercentage
+				data={mostCommonResultsData}
+				cutout='40%'
+				dataLabelColor={theme.colors.gray[8]}
+			/>
+		</Flex>
 	) : (
 		<FeedbackMessage
 			icon={faCircleInfo}

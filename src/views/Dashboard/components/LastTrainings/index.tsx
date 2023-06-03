@@ -2,7 +2,7 @@ import { CustomTable } from '@/components'
 import { constants } from '@/config'
 import { getLastTrainingsRequest } from '@/request'
 import { formatDate, getColorForResult, getUserSession } from '@/utils'
-import { Badge, Title } from '@mantine/core'
+import { Badge, Flex, Title } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 
 const columns: CustomTableColumns<LastTrainingDTO[]> = [
@@ -53,11 +53,13 @@ const LastTrainings = () => {
 	)
 
 	return (
-		<>
+		<Flex
+			direction='column'
+			gap='md'
+		>
 			<Title
 				color='gray.8'
 				size='h3'
-				mb='md'
 			>
 				Últimos Entrenamientos
 			</Title>
@@ -68,7 +70,7 @@ const LastTrainings = () => {
 				miw={700}
 				error={lastTrainingsError?.response?.data.message}
 			/>
-		</>
+		</Flex>
 	)
 }
 

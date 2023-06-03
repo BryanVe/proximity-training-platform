@@ -1,11 +1,9 @@
 import { CustomChart } from '@/components'
 import { MantineColor, px, useMantineTheme } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
 import { FC } from 'react'
 import { Doughnut } from 'react-chartjs-2'
 
 type DashboardDoughnutProps = {
-	title: string
 	cutout?: string
 	isPercentage?: boolean
 	dataLabelColor?: MantineColor
@@ -13,17 +11,14 @@ type DashboardDoughnutProps = {
 
 const DashboardDoughnut: FC<DashboardDoughnutProps> = props => {
 	const {
-		title,
 		cutout,
 		isPercentage = false,
 		dataLabelColor,
 		...doughnutProps
 	} = props
 	const theme = useMantineTheme()
-	const matches = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`)
 
 	const options: DoughnutProps['options'] = {
-		radius: '90%',
 		cutout,
 		maintainAspectRatio: false,
 		plugins: {
@@ -49,17 +44,10 @@ const DashboardDoughnut: FC<DashboardDoughnutProps> = props => {
 				},
 			},
 			legend: {
+				position: 'bottom',
 				title: {
 					display: true,
-					text: title,
-					color: theme.colors.gray[8],
-					font: {
-						weight: 'bold',
-						size: px(theme.fontSizes.md),
-					},
 				},
-				position: matches ? 'bottom' : 'right',
-				align: 'center',
 				labels: {
 					usePointStyle: true,
 					color: theme.colors.gray[7],
@@ -76,7 +64,7 @@ const DashboardDoughnut: FC<DashboardDoughnutProps> = props => {
 			{...doughnutProps}
 			chart={Doughnut}
 			maw={500}
-			mih={400}
+			mih={300}
 			options={options}
 		/>
 	)

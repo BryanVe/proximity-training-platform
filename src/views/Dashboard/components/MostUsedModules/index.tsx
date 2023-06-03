@@ -5,7 +5,7 @@ import {
 	faCircleInfo,
 	faTriangleExclamation,
 } from '@fortawesome/free-solid-svg-icons'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, Title, useMantineTheme } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import DashboardDoughnut from '../DashboardDoughnut'
 import FeedbackMessage from '../FeedbackMessage'
@@ -62,12 +62,22 @@ const MostUsedModules = () => {
 			message={`Ocurrió el siguiente error: ${mostUsedModulesError.response?.data.message}`}
 		/>
 	) : Object.keys(mostUsedModules || {}).length > 0 ? (
-		<DashboardDoughnut
-			title='Módulos Más Utilizados'
-			data={mostUsedModulesData}
-			cutout='60%'
-			dataLabelColor={theme.white}
-		/>
+		<Flex
+			direction='column'
+			gap='md'
+		>
+			<Title
+				color='gray.8'
+				size='h3'
+			>
+				Módulos Más Utilizados
+			</Title>
+			<DashboardDoughnut
+				data={mostUsedModulesData}
+				cutout='60%'
+				dataLabelColor={theme.white}
+			/>
+		</Flex>
 	) : (
 		<FeedbackMessage
 			icon={faCircleInfo}

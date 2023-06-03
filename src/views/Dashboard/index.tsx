@@ -40,7 +40,10 @@ const Dashboard = () => {
 				Bienvenido al gestor web, aquí podrás visualizar métricas importantes
 				del pilotaje
 			</Text>
-			<Grid gutter='xl'>
+			<Grid
+				gutter='xl'
+				mt='md'
+			>
 				<Grid.Col md={6}>
 					<MostUsedModules />
 				</Grid.Col>
