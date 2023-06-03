@@ -1,5 +1,5 @@
 import { getUserSession } from '@/utils'
-import { Box, Flex, MediaQuery, rem } from '@mantine/core'
+import { Box, Flex, MediaQuery, rem, Space } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { Navigate, Outlet } from 'react-router-dom'
 import { Sidebar, Topbar } from './components'
@@ -41,13 +41,12 @@ const Internal = () => {
 						component='main'
 						w='100%'
 						maw={1500}
-						mx='auto'
-						p={rem(32)}
-						style={{
-							overflow: 'auto',
-						}}
 					>
 						<Outlet />
+						<Space
+							w='100%'
+							h={rem(32)}
+						/>
 					</Box>
 				</MediaQuery>
 			</MainContainer>
