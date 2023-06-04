@@ -32,8 +32,8 @@ const ExtraInfo: FC<ExtraInfoProps> = props => {
 					</Title>
 					{training.criticalErrors.length > 0 ? (
 						<List withPadding>
-							{training.criticalErrors.map(e => (
-								<List.Item>{e}</List.Item>
+							{training.criticalErrors.map((e, index) => (
+								<List.Item key={`${e}-${index}`}>{e}</List.Item>
 							))}
 						</List>
 					) : (
