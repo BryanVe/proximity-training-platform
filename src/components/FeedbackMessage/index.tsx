@@ -1,3 +1,4 @@
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import {
 	FontAwesomeIcon,
 	FontAwesomeIconProps,
@@ -7,13 +8,14 @@ import { FC } from 'react'
 
 type FeedbackMessageProps = {
 	isLoading?: boolean
-	message: string
+	message?: string
 	icon?: FontAwesomeIconProps['icon']
 	fullHeight?: boolean
+	error?: ErrorResponse
 }
 
 const FeedbackMessage: FC<FeedbackMessageProps> = props => {
-	const { icon, isLoading, message, fullHeight = true } = props
+	const { icon, isLoading, message, fullHeight = true, error } = props
 	const theme = useMantineTheme()
 
 	return (
@@ -27,16 +29,22 @@ const FeedbackMessage: FC<FeedbackMessageProps> = props => {
 				h: '100%',
 			})}
 		>
-			{!isLoading && icon ? (
+			{!isLoading ? (
 				<FontAwesomeIcon
-					icon={icon}
+					icon={icon && !error ? icon : faTriangleExclamation}
 					color={theme.colors.red[6]}
 					size='xl'
 				/>
 			) : (
 				<Loader />
 			)}
-			<Text align='center'>{message}</Text>
+			<Text align='center'>
+				{error
+					? error.response?.data.message
+						? `Ocurrió el siguiente error: ${error.response?.data.message}`
+						: error.message
+					: message}
+			</Text>
 		</Flex>
 	)
 }

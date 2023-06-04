@@ -2,10 +2,7 @@ import { FeedbackMessage } from '@/components'
 import { constants } from '@/config'
 import { getMostCommonResultsRequest } from '@/request'
 import { getUserSession } from '@/utils'
-import {
-	faCircleInfo,
-	faTriangleExclamation,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { Flex, Title, useMantineTheme } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import DashboardDoughnut from '../DashboardDoughnut'
@@ -69,10 +66,7 @@ const MostCommonResults = () => {
 					message='Cargando los resultados más comunes...'
 				/>
 			) : mostCommonResultsError ? (
-				<FeedbackMessage
-					icon={faTriangleExclamation}
-					message={`Ocurrió el siguiente error: ${mostCommonResultsError.response?.data.message}`}
-				/>
+				<FeedbackMessage error={mostCommonResultsError} />
 			) : Object.keys(mostCommonResults || {}).length > 0 ? (
 				<DashboardDoughnut
 					isPercentage

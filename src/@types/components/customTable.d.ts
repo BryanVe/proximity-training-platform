@@ -1,13 +1,11 @@
-type CustomTableDefaultDataItem = Record<string, number | string> & {
+type CustomTableDefaultDataItem = {
 	id: number
-}
+} & Record<string, string | number | string[]>
 type CustomTableDefaultData = CustomTableDefaultDataItem[]
 
-type CustomTableColumn<
-	T extends CustomTableDefaultData = CustomTableDefaultData
-> = {
-	id: keyof T[0] | string
+type CustomTableColumn<T> = {
+	id: keyof T | string
 	label: string
-	render?: (data: T[0]) => JSX.Element
+	render?: (data: T) => import('react').ReactNode
 }
 type CustomTableColumns<T> = CustomTableColumn<T>[]

@@ -24,7 +24,7 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 	const userSession = getUserSession()
 	const isModuleSelected = selectedModule.length !== 0
 	const [selectedTraining, setSelectedTraining] = useState<TrainingDTO>()
-	const columns: CustomTableColumns<TrainingDTO[]> = [
+	const columns: CustomTableColumns<TrainingDTO> = [
 		{
 			id: 'id',
 			label: 'ID',
@@ -32,7 +32,7 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 		{
 			id: 'startDate',
 			label: 'Fecha',
-			render: date => <>{formatDate(date.startDate)}</>,
+			render: date => formatDate(date.startDate),
 		},
 		{ id: 'organization', label: 'Nombre' },
 		{
@@ -61,9 +61,7 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 		{
 			id: 'time',
 			label: 'Tiempo',
-			render: data => (
-				<>{getDifferenceFromDates(data.startDate, data.endDate)}</>
-			),
+			render: data => getDifferenceFromDates(data.startDate, data.endDate),
 		},
 		{
 			id: 'actions',
@@ -140,9 +138,9 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 							justifyContent: 'flex-end',
 						}}
 					/>
-					<CustomTable<TrainingDTO[]>
+					<CustomTable<TrainingDTO>
 						isLoading={areTrainingsLoading}
-						error={trainingsError?.response?.data.message}
+						error={trainingsError}
 						columns={columns}
 						data={trainings}
 						miw={1200}

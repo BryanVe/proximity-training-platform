@@ -1,21 +1,18 @@
-import {
-	faCircleInfo,
-	faTriangleExclamation,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { Table, TableProps } from '@mantine/core'
 import FeedbackMessage from '../FeedbackMessage'
 import { TableContainer } from './styled.components'
 
-type CustomTableProps<T> = {
-	data?: T
+type CustomTableProps<T extends CustomTableDefaultDataItem> = {
+	data?: T[]
 	columns: CustomTableColumns<T>
 	miw?: TableProps['miw']
 	isLoading?: boolean
-	error?: string
+	error?: ErrorResponse | null
 	loadingMessage?: string
 }
 
-function CustomTable<T extends CustomTableDefaultData>(
+function CustomTable<T extends CustomTableDefaultDataItem>(
 	props: CustomTableProps<T>
 ) {
 	const {
@@ -70,8 +67,7 @@ function CustomTable<T extends CustomTableDefaultData>(
 				/>
 			) : error ? (
 				<FeedbackMessage
-					icon={faTriangleExclamation}
-					message={`Ocurrió el siguiente error: ${error}`}
+					error={error}
 					fullHeight={false}
 				/>
 			) : data?.length === 0 ? (

@@ -5,11 +5,11 @@ import { formatDate, getColorForResult, getUserSession } from '@/utils'
 import { Badge, Flex, Title } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 
-const columns: CustomTableColumns<LastTrainingDTO[]> = [
+const columns: CustomTableColumns<LastTrainingDTO> = [
 	{
 		id: 'startDate',
 		label: 'Fecha',
-		render: date => <>{formatDate(date.startDate)}</>,
+		render: date => formatDate(date.startDate),
 	},
 	{ id: 'organization', label: 'Nombre' },
 	{
@@ -63,12 +63,12 @@ const LastTrainings = () => {
 			>
 				Últimos Entrenamientos
 			</Title>
-			<CustomTable<LastTrainingDTO[]>
+			<CustomTable<LastTrainingDTO>
 				isLoading={areLastTrainingsLoading}
 				columns={columns}
 				data={lastTrainings}
 				miw={700}
-				error={lastTrainingsError?.response?.data.message}
+				error={lastTrainingsError}
 				loadingMessage='Cargando los últimos entrenamientos...'
 			/>
 		</Flex>

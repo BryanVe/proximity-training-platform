@@ -2,10 +2,7 @@ import { FeedbackMessage } from '@/components'
 import { constants } from '@/config'
 import { getMostUsedModulesRequest } from '@/request'
 import { getUserSession } from '@/utils'
-import {
-	faCircleInfo,
-	faTriangleExclamation,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { Flex, Title, useMantineTheme } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import DashboardDoughnut from '../DashboardDoughnut'
@@ -69,10 +66,7 @@ const MostUsedModules = () => {
 					message='Cargando los módulos más utilizados...'
 				/>
 			) : mostUsedModulesError ? (
-				<FeedbackMessage
-					icon={faTriangleExclamation}
-					message={`Ocurrió el siguiente error: ${mostUsedModulesError.response?.data.message}`}
-				/>
+				<FeedbackMessage error={mostUsedModulesError} />
 			) : Object.keys(mostUsedModules || {}).length > 0 ? (
 				<DashboardDoughnut
 					data={mostUsedModulesData}
