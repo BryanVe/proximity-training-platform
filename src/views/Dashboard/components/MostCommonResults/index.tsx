@@ -39,11 +39,7 @@ const MostCommonResults = () => {
 		datasets: [
 			{
 				data: mostCommonResults ? Object.values(mostCommonResults) : [],
-				backgroundColor: mostCommonResults
-					? Object.keys(mostCommonResults).map((_, index) =>
-							theme.fn.lighten(theme.colors.yellow[6], 0.1 * index)
-					  )
-					: [],
+				backgroundColor: Object.values(theme.colors).map(color => color[5]),
 			},
 		],
 	}
@@ -72,7 +68,7 @@ const MostCommonResults = () => {
 					isPercentage
 					data={mostCommonResultsData}
 					cutout='40%'
-					dataLabelColor={theme.colors.gray[8]}
+					dataLabelColor={theme.white}
 				/>
 			) : (
 				<FeedbackMessage

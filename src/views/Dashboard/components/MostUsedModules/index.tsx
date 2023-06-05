@@ -39,11 +39,7 @@ const MostUsedModules = () => {
 		datasets: [
 			{
 				data: mostUsedModules ? Object.values(mostUsedModules) : [],
-				backgroundColor: mostUsedModules
-					? Object.keys(mostUsedModules).map((_, index) =>
-							theme.fn.lighten(theme.colors.pink[5], 0.1 * index)
-					  )
-					: [],
+				backgroundColor: Object.values(theme.colors).map(color => color[5]),
 			},
 		],
 	}
