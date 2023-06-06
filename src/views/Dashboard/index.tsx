@@ -1,29 +1,14 @@
 import { getUserSession } from '@/utils'
-import { Grid, Text, Title, useMantineTheme } from '@mantine/core'
+import { Grid, Text, Title } from '@mantine/core'
 import {
-	DashboardBar,
 	LastTrainings,
 	MostCommonResults,
 	MostUsedModules,
+	TrainingsQuantity,
 } from './components'
 
 const Dashboard = () => {
 	const userSession = getUserSession()
-	const theme = useMantineTheme()
-
-	const mockedData3: BarProps['data'] = {
-		labels: ['A', 'B', 'C'],
-		datasets: [
-			{
-				data: [537, 197, 116],
-				backgroundColor: [
-					theme.colors.gray[4],
-					theme.colors.gray[4],
-					theme.colors.gray[4],
-				],
-			},
-		],
-	}
 
 	return (
 		<>
@@ -54,14 +39,7 @@ const Dashboard = () => {
 					<LastTrainings />
 				</Grid.Col>
 				<Grid.Col md={6}>
-					<Title
-						color='gray.8'
-						size='h3'
-						mb='md'
-					>
-						Cantidad de Entrenamientos
-					</Title>
-					<DashboardBar data={mockedData3} />
+					<TrainingsQuantity />
 				</Grid.Col>
 			</Grid>
 		</>
