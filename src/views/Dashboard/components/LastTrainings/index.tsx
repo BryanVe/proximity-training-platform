@@ -11,7 +11,6 @@ const columns: CustomTableColumns<LastTrainingDTO> = [
 		label: 'Fecha',
 		render: date => formatDate(date.startDate),
 	},
-	{ id: 'organization', label: 'Nombre' },
 	{
 		id: 'module',
 		label: 'Módulo',

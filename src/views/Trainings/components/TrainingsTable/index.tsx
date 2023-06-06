@@ -43,7 +43,6 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 			render: data => formatDate(data.startDate),
 			toCSV: data => formatDate(data.startDate),
 		},
-		{ id: 'organization', label: 'Nombre' },
 		{
 			id: 'dni',
 			label: 'DNI',
