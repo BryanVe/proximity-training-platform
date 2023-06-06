@@ -8,10 +8,18 @@ import {
 } from '@/utils'
 import { faFile } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ActionIcon, Badge, Pagination, Text, Tooltip } from '@mantine/core'
+import {
+	ActionIcon,
+	Badge,
+	Flex,
+	Pagination,
+	Text,
+	Tooltip,
+} from '@mantine/core'
 import { usePagination } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { FC, useState } from 'react'
+import { Actions } from '..'
 import ExtraInfo from '../ExtraInfo'
 
 type TrainingsTableProps = {
@@ -32,7 +40,8 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 		{
 			id: 'startDate',
 			label: 'Fecha',
-			render: date => formatDate(date.startDate),
+			render: data => formatDate(data.startDate),
+			toCSV: data => formatDate(data.startDate),
 		},
 		{ id: 'organization', label: 'Nombre' },
 		{
@@ -62,6 +71,7 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 			id: 'time',
 			label: 'Tiempo',
 			render: data => getDifferenceFromDates(data.startDate, data.endDate),
+			toCSV: data => getDifferenceFromDates(data.startDate, data.endDate),
 		},
 		{
 			id: 'actions',
@@ -127,17 +137,27 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 		<>
 			{isModuleSelected ? (
 				<>
-					<Pagination
-						value={pagination.active}
-						onChange={pagination.setPage}
-						total={totalPages}
-						size='sm'
-						mb='xs'
-						siblings={0}
-						style={{
-							justifyContent: 'flex-end',
-						}}
-					/>
+					<Flex
+						justify='flex-end'
+						align='center'
+						gap='md'
+					>
+						<Pagination
+							value={pagination.active}
+							onChange={pagination.setPage}
+							total={totalPages}
+							size='sm'
+							siblings={0}
+							style={{
+								justifyContent: 'flex-end',
+							}}
+						/>
+						<Actions
+							selectedModule={selectedModule}
+							total={totalTrainings}
+							columns={columns}
+						/>
+					</Flex>
 					<CustomTable<TrainingDTO>
 						isLoading={areTrainingsLoading}
 						error={trainingsError}
