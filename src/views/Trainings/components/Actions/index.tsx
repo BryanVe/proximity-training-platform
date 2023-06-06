@@ -56,7 +56,9 @@ const Actions: FC<ActionsProps> = props => {
 			const csv = getCSVFromTrainingsTable(csvColumns, trainings)
 			downloadCSV(
 				csv,
-				`${formatDate(new Date().toISOString())}-${selectedModule}`
+				`${userSession.organization}_${selectedModule}_${formatDate(
+					new Date().toISOString()
+				)}`
 			)
 		} catch (error) {
 			notifications.error('Ocurrió un error al exportar la tabla', '')
