@@ -167,7 +167,7 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 					/>
 				</>
 			) : (
-				<Text size='sm'>No has realizado ningún filtrado todavía</Text>
+				<Text>No has realizado ningún filtrado todavía</Text>
 			)}
 			{selectedTraining && <ExtraInfo training={selectedTraining} />}
 		</>

@@ -2,7 +2,7 @@ import { MantineProvider } from '@mantine/core'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Notifications } from '@mantine/notifications'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { DashboardView, AuthView, TrainingsView } from './views'
+import { DashboardView, AuthView, TrainingsView, ProfileView } from './views'
 import { InternalLayout } from './layouts'
 import theme from './theme'
 
@@ -43,6 +43,10 @@ const App = () => (
 						<Route
 							path='/training'
 							element={<TrainingsView />}
+						/>
+						<Route
+							path='/profile'
+							element={<ProfileView />}
 						/>
 					</Route>
 				</Routes>
