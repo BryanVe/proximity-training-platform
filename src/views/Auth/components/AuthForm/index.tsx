@@ -5,7 +5,6 @@ import {
 	useMantineTheme,
 } from '@mantine/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 import { CustomButton } from '@/styled.components'
 import { Form } from './styled.components'
 import { useForm } from '@mantine/form'
@@ -110,13 +109,6 @@ const AuthForm = () => {
 				size='md'
 				variant='filled'
 				placeholder='Contraseña'
-				visibilityToggleIcon={({ reveal }) =>
-					reveal ? (
-						<FontAwesomeIcon icon={faEyeSlash} />
-					) : (
-						<FontAwesomeIcon icon={faEye} />
-					)
-				}
 				{...form.getInputProps('password', {
 					withFocus: false,
 				})}

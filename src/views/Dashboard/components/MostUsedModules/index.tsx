@@ -50,12 +50,7 @@ const MostUsedModules = () => {
 			gap='md'
 			h='100%'
 		>
-			<Title
-				color='gray.8'
-				size='h3'
-			>
-				Módulos Más Utilizados
-			</Title>
+			<Title size='h3'>Módulos Más Utilizados</Title>
 			{areMostUsedModulesLoading ? (
 				<FeedbackMessage
 					isLoading

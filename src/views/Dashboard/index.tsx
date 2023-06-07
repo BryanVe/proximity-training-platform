@@ -12,15 +12,8 @@ const Dashboard = () => {
 
 	return (
 		<>
-			<Title color='gray.8'>Dashboard</Title>
-			{userSession && (
-				<Title
-					color='gray.8'
-					size='h2'
-				>
-					{userSession.organization}
-				</Title>
-			)}
+			<Title>Dashboard</Title>
+			{userSession && <Title size='h2'>{userSession.organization}</Title>}
 			<Text>
 				Bienvenido al gestor web, aquí podrás visualizar métricas importantes
 				del pilotaje

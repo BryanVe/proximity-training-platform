@@ -61,7 +61,7 @@ const Training = () => {
 					{availableModulesError?.response?.data.message}
 				</Alert>
 			)}
-			<Title color='gray.8'>Entrenamientos</Title>
+			<Title>Entrenamientos</Title>
 			<Select
 				disabled={areAvailableModulesLoading}
 				icon={areAvailableModulesLoading ? <Loader size='xs' /> : null}

@@ -12,7 +12,6 @@ const ExtraInfo: FC<ExtraInfoProps> = props => {
 	return (
 		<>
 			<Title
-				color='gray.8'
 				size='h2'
 				mt='md'
 			>
@@ -22,7 +21,6 @@ const ExtraInfo: FC<ExtraInfoProps> = props => {
 			<Grid gutter='xl'>
 				<Grid.Col md={6}>
 					<Title
-						color='gray.8'
 						size='h3'
 						mb='xs'
 					>
@@ -42,7 +40,6 @@ const ExtraInfo: FC<ExtraInfoProps> = props => {
 				</Grid.Col>
 				<Grid.Col md={6}>
 					<Title
-						color='gray.8'
 						size='h3'
 						mb='xs'
 					>
@@ -62,7 +59,6 @@ const ExtraInfo: FC<ExtraInfoProps> = props => {
 				</Grid.Col>
 				<Grid.Col md={6}>
 					<Title
-						color='gray.8'
 						size='h3'
 						mb='xs'
 					>
@@ -82,7 +78,6 @@ const ExtraInfo: FC<ExtraInfoProps> = props => {
 				</Grid.Col>
 				<Grid.Col md={6}>
 					<Title
-						color='gray.8'
 						size='h3'
 						mb='xs'
 					>

@@ -50,12 +50,7 @@ const MostCommonResults = () => {
 			gap='md'
 			h='100%'
 		>
-			<Title
-				color='gray.8'
-				size='h3'
-			>
-				Resultados Más Comunes
-			</Title>
+			<Title size='h3'>Resultados Más Comunes</Title>
 			{areMostCommonResultsLoading ? (
 				<FeedbackMessage
 					isLoading

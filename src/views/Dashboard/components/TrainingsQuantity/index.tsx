@@ -48,12 +48,7 @@ const TrainingsQuantity = () => {
 			gap='md'
 			h='100%'
 		>
-			<Title
-				color='gray.8'
-				size='h3'
-			>
-				Cantidad de Entrenamientos
-			</Title>
+			<Title size='h3'>Cantidad de Entrenamientos</Title>
 			{areAvailableModulesLoading ? (
 				<FeedbackMessage
 					isLoading

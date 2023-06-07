@@ -56,12 +56,7 @@ const LastTrainings = () => {
 			direction='column'
 			gap='md'
 		>
-			<Title
-				color='gray.8'
-				size='h3'
-			>
-				Últimos Entrenamientos
-			</Title>
+			<Title size='h3'>Últimos Entrenamientos</Title>
 			<CustomTable<LastTrainingDTO>
 				isLoading={areLastTrainingsLoading}
 				columns={columns}

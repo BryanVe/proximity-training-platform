@@ -1,44 +1,26 @@
 import { getUserSession } from '@/utils'
-import { Grid, PasswordInput, TextInput, Title } from '@mantine/core'
+import { Grid, Text, Title } from '@mantine/core'
+import { GeneralInfo, LoginCredentials } from './components'
 
 const Profile = () => {
 	const userSession = getUserSession()
 
 	return (
 		<>
-			<Title color='gray.8'>Perfil</Title>
-			<Grid>
-				<Grid.Col>
-					<TextInput
-						disabled
-						label='ID'
-						placeholder='ID'
-						defaultValue={userSession?.id || ''}
-					/>
-					<TextInput
-						disabled
-						label='Nombre'
-						placeholder='Nombre'
-						defaultValue={userSession?.user || ''}
-					/>
-					<TextInput
-						disabled
-						label='Organización'
-						placeholder='Organización'
-						defaultValue={userSession?.organization || ''}
-					/>
-					<TextInput
-						disabled
-						label='Email'
-						placeholder='Email'
-						defaultValue={userSession?.email || ''}
-					/>
-					<PasswordInput
-						disabled
-						label='Contraseña'
-						placeholder='Contraseña'
-						defaultValue='aaaaaaaa'
-					/>
+			<Title>Perfil</Title>
+			<Title size='h2'>{userSession?.organization}</Title>
+			<Text>
+				Aquí podrás visualizar toda la información relacionada a tu usuario
+			</Text>
+			<Grid
+				mt='xs'
+				gutter='xl'
+			>
+				<Grid.Col md={6}>
+					<LoginCredentials />
+				</Grid.Col>
+				<Grid.Col md={6}>
+					<GeneralInfo />
 				</Grid.Col>
 			</Grid>
 		</>
