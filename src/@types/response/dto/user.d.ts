@@ -1,7 +1,7 @@
 type UserDTO = {
-	id: string
+	id: number
 	user: string
 	email: string
 	organization: string
-	is_deleted: number
+	deleted: number
 }

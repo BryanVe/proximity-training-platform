@@ -7,3 +7,14 @@ export const authRequest = async (
 
 	return response.data.message
 }
+
+export const updatePasswordRequest = async (
+	args: UpdatePasswordDTO
+): Promise<string> => {
+	const response = await axiosInstance.post<UpdatePasswordResponse>(
+		`/update-password`,
+		args
+	)
+
+	return response.data.message
+}

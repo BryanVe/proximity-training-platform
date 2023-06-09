@@ -5,10 +5,11 @@ type FooterProps = {
 	strength: number
 	save: () => void
 	close: () => void
+	loading: boolean
 }
 
 const Footer: FC<FooterProps> = props => {
-	const { strength, save, close } = props
+	const { strength, save, close, loading } = props
 
 	return (
 		<Flex
@@ -17,6 +18,7 @@ const Footer: FC<FooterProps> = props => {
 			mt='md'
 		>
 			<Button
+				loading={loading}
 				disabled={strength < 100}
 				onClick={save}
 			>

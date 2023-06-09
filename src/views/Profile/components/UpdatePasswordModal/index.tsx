@@ -1,3 +1,5 @@
+import { updatePasswordRequest } from '@/request'
+import { getUserSession, notifications } from '@/utils'
 import { Modal, ModalProps } from '@mantine/core'
 import { FC, useState } from 'react'
 import { Footer, Header, PasswordInputs } from './components'
@@ -49,9 +51,11 @@ const initialState = {
 }
 
 const UpdatePassowordModal: FC<UpdatePassowordModalProps> = props => {
+	const userSession = getUserSession()
 	const { opened, onClose } = props
 	const [passwords, setPasswords] = useState(initialState)
 	const { strength, error } = validate(passwords.first, passwords.second)
+	const [saveLoading, setSaveLoading] = useState(false)
 
 	const passwordChangeHandler = (
 		event: React.ChangeEvent<HTMLInputElement>
@@ -73,8 +77,28 @@ const UpdatePassowordModal: FC<UpdatePassowordModalProps> = props => {
 		}, 200)
 	}
 
-	const save = () => {
-		console.log(passwords)
+	const save = async () => {
+		if (!userSession) return
+
+		try {
+			setSaveLoading(true)
+			const response = await updatePasswordRequest({
+				password: passwords.first,
+				userId: userSession.id,
+			})
+
+			notifications.success('Actualización exitosa', response)
+			close()
+		} catch (error: unknown) {
+			const knownError = error as ErrorResponse
+			const message = knownError.response?.data.message
+				? knownError.response?.data.message
+				: knownError.message
+
+			notifications.error('Ocurrió un error', message)
+		} finally {
+			setSaveLoading(false)
+		}
 	}
 
 	return (
@@ -97,6 +121,7 @@ const UpdatePassowordModal: FC<UpdatePassowordModalProps> = props => {
 				strength={strength}
 				save={save}
 				close={close}
+				loading={saveLoading}
 			/>
 		</Modal>
 	)
