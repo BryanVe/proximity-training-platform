@@ -32,4 +32,5 @@ type TrainingsFiltersDTO = OrganizationFiltersDTO & {
 	module: string
 	limit: number
 	offset: number
+	order: string
 }

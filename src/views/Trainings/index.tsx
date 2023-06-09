@@ -1,8 +1,9 @@
+import { constants } from '@/config'
 import { getAvailableModules } from '@/request'
 import { getUserSession } from '@/utils'
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Alert, Loader, Select, Title } from '@mantine/core'
+import { Alert, Grid, Loader, Select, Text, Title } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { TrainingsTable } from './components'
@@ -34,11 +35,15 @@ const Training = () => {
 	const availableModulesNames = Object.keys(availableModules || {})
 
 	const [selectedModule, setSelectedModule] = useState('')
+	const [selectedOrder, setSelectedOrder] = useState(
+		constants.TRAINING_ORDERS[0].value
+	)
 	const isModuleSelected = selectedModule.length !== 0
 	const totalTrainings =
 		availableModules && isModuleSelected ? availableModules[selectedModule] : 0
 
 	const selectModule = (value: string) => setSelectedModule(value)
+	const selectOrder = (value: string) => setSelectedOrder(value)
 
 	return (
 		<>
@@ -62,20 +67,44 @@ const Training = () => {
 				</Alert>
 			)}
 			<Title>Entrenamientos</Title>
-			<Select
-				disabled={areAvailableModulesLoading}
-				icon={areAvailableModulesLoading ? <Loader size='xs' /> : null}
-				my='md'
-				maw={400}
-				label='Selecciona un módulo para realizar el filtrado'
-				placeholder='Módulo'
-				data={availableModulesNames}
-				value={selectedModule}
-				onChange={selectModule}
-			/>
+			<Text>
+				Selecciona un módulo para buscar los entrenamientos, puedes también
+				ordenarlos utilizando una de las opciones disponibles.
+			</Text>
+			<Grid
+				mt='md'
+				mb='xs'
+				justify='space-between'
+			>
+				<Grid.Col
+					md={7}
+					lg={5}
+					xl={4}
+				>
+					<Select
+						disabled={areAvailableModulesLoading}
+						icon={areAvailableModulesLoading ? <Loader size='xs' /> : null}
+						placeholder='Módulo'
+						data={availableModulesNames}
+						value={selectedModule}
+						onChange={selectModule}
+					/>
+				</Grid.Col>
+				{isModuleSelected && (
+					<Grid.Col md='content'>
+						<Select
+							placeholder='Ordenar por'
+							data={constants.TRAINING_ORDERS}
+							value={selectedOrder}
+							onChange={selectOrder}
+						/>
+					</Grid.Col>
+				)}
+			</Grid>
 			<TrainingsTable
 				key={selectedModule}
 				selectedModule={selectedModule}
+				selectedOrder={selectedOrder}
 				totalTrainings={totalTrainings}
 			/>
 		</>

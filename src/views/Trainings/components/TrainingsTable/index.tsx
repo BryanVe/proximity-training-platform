@@ -25,10 +25,11 @@ import ExtraInfo from '../ExtraInfo'
 type TrainingsTableProps = {
 	totalTrainings: number
 	selectedModule: string
+	selectedOrder: string
 }
 
 const TrainingsTable: FC<TrainingsTableProps> = props => {
-	const { totalTrainings, selectedModule } = props
+	const { totalTrainings, selectedModule, selectedOrder } = props
 	const userSession = getUserSession()
 	const isModuleSelected = selectedModule.length !== 0
 	const [selectedTraining, setSelectedTraining] = useState<TrainingDTO>()
@@ -114,15 +115,17 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 			userSession?.organization,
 			selectedModule,
 			pagination.active.toString(),
+			selectedOrder,
 		],
 		({ queryKey }) => {
-			if (!queryKey[1] || !queryKey[2] || !queryKey[3]) return
+			if (!queryKey[1] || !queryKey[2] || !queryKey[3] || !queryKey[4]) return
 
 			return getTrainings({
 				organization: queryKey[1],
 				module: queryKey[2],
 				limit: 10,
 				offset: 10 * (parseInt(queryKey[3]) - 1),
+				order: queryKey[4],
 			})
 		},
 		{
@@ -155,6 +158,7 @@ const TrainingsTable: FC<TrainingsTableProps> = props => {
 							selectedModule={selectedModule}
 							total={totalTrainings}
 							columns={columns}
+							selectedOrder={selectedOrder}
 						/>
 					</Flex>
 					<CustomTable<TrainingDTO>

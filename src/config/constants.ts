@@ -21,4 +21,10 @@ export default {
 		eppNoTomados: 'EPPs no tomados',
 		eppIncorrectamenteTomados: 'EPPs incorrectamente tomados',
 	},
+	TRAINING_ORDERS: [
+		{ value: 'NEWEST_FIRST', label: 'Más reciente primero' },
+		{ value: 'OLDER_FIRST', label: 'Más antiguo primero' },
+		{ value: 'COMPLETED_FIRST', label: 'Completado primero' },
+		{ value: 'NOT_COMPLETED_FIRST', label: 'No completado primero' },
+	],
 }

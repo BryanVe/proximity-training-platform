@@ -19,10 +19,11 @@ type ActionsProps = {
 	selectedModule: string
 	total: number
 	columns: CustomTableColumns<TrainingDTO>
+	selectedOrder: string
 }
 
 const Actions: FC<ActionsProps> = props => {
-	const { columns, selectedModule, total } = props
+	const { columns, selectedModule, total, selectedOrder } = props
 	const userSession = getUserSession()
 
 	const exportCSV = async () => {
@@ -34,6 +35,7 @@ const Actions: FC<ActionsProps> = props => {
 				module: selectedModule,
 				limit: total,
 				offset: 0,
+				order: selectedOrder,
 			})
 
 			const errorColumns: CustomTableColumns<TrainingDTO> = Object.entries(
