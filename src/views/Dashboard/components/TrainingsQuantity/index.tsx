@@ -59,7 +59,6 @@ const TrainingsQuantity = () => {
 			) : Object.keys(availableModules || {}).length > 0 ? (
 				<DashboardBar
 					data={availableModulesData}
-					dataLabelColor={theme.white}
 					height={400}
 				/>
 			) : (

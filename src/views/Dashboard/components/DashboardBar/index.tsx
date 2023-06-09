@@ -1,11 +1,9 @@
 import { CustomChart } from '@/components'
-import { MantineColor, px, useMantineTheme } from '@mantine/core'
+import { px, useMantineTheme } from '@mantine/core'
 import { FC } from 'react'
 import { Bar } from 'react-chartjs-2'
 
-type DashboardBarProps = {
-	dataLabelColor?: MantineColor
-} & BarProps
+type DashboardBarProps = BarProps
 
 const DashboardBar: FC<DashboardBarProps> = props => {
 	const { ...barProps } = props
