@@ -1,5 +1,5 @@
 import { Button, Flex } from '@mantine/core'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 type FooterProps = {
 	strength: number
